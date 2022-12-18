@@ -6,7 +6,24 @@ using System.Threading.Tasks;
 
 namespace IssueTracker
 {
-    class FileHandler
+    static class FileHandler
     {
+        public static void WriteToFile(string outputPath, List<Field> fields)
+        {
+
+        }
+
+        public static List<Field> ReadFromFile(string filePath)
+        {
+            List<Field> fieldsList = new List<Field>();
+            return fieldsList;
+        }
+
+        public static void GenerateTexFile(string outputPath, List<Field> fields)
+        {
+
+        }
+
+
     }
 }

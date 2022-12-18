@@ -41,17 +41,13 @@ namespace IssueTracker
         {
             Type type = GetTypeInput();
             int number = GenerateNumber(type);
-            Priority priority = GetPriorityInput();
-            //Status status = GetStatusinput();
-            string title = GetTitleInput(type);
-            string description = GetDescriptionInput(type);
+            GetPriorityInput();
+            GetTitleInput(type);
+            GetDescriptionInput(type);
 
             this.type = type;
             this.number = number;
-            this.priority = priority;
-            this.status = Status.Pending;
-            this.title = title;
-            this.description = description;
+            status = Status.Pending;
         }
 
         public override string ToString()
@@ -115,7 +111,7 @@ namespace IssueTracker
             return number;
         }
 
-        private Priority GetPriorityInput()
+        private void GetPriorityInput()
         {
             int userInput;
             while (true)
@@ -139,25 +135,73 @@ namespace IssueTracker
                     Console.WriteLine("Invalid input (not number), try again\n");
                 }
             }
-            return (Priority)userInput;
+            this.priority = (Priority)userInput;
         }
 
-        private string GetTitleInput(Type type)
+        private void GetTitleInput(Type type)
         {
             string userInput;
 
             Console.Write(string.Format("Type {0:g} title: ", type));
             userInput = Console.ReadLine();
-            return userInput;
+            if (userInput.Length > 1)
+            {
+                userInput = char.ToUpper(userInput[0]) + userInput.Substring(1);
+            } else
+            {
+                userInput = userInput.ToUpper();
+            }
+            this.title = userInput;
         }
 
-        private string GetDescriptionInput(Type type)
+        private void GetDescriptionInput(Type type)
         {
             string userInput;
 
             Console.Write(string.Format("Type {0:g} description: ", type));
             userInput = Console.ReadLine();
-            return userInput;
+            if (userInput.Length > 1)
+            {
+                userInput = char.ToUpper(userInput[0]) + userInput.Substring(1);
+            }
+            else
+            {
+                userInput = userInput.ToUpper();
+            }
+            this.description = userInput;
+        }
+
+        public void GetStatusInput()
+        {
+            int userInput;
+            while (true)
+            {
+                Console.WriteLine("Choose status:\n1 - Pending\n2 - Ongoing\n3 - Done\n4 - Cancelled");
+                try
+                {
+                    userInput = Int16.Parse(Console.ReadLine());
+                    userInput--;
+                    if (Enum.IsDefined(typeof(Status), userInput))
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid input (wrong number), try again\n");
+                    }
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Invalid input (not number), try again\n");
+                }
+            }
+            this.status = (Status)userInput;
+        }
+
+        public void ChangeTitle()
+        {
+            Console.WriteLine(string.Format("Old title: {0:g}", title));
+            GetTitleInput(type);
         }
     }
 }
