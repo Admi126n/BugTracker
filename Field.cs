@@ -88,7 +88,6 @@ namespace IssueTracker
                 {
                     Console.WriteLine("Invalid input (not number), try again\n");
                 }
-
             }           
             return (Type)userInput;
         }
