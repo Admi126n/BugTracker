@@ -39,11 +39,11 @@ namespace IssueTracker
 
         public Field()
         {
-            Type type = GetTypeInput();
-            int number = GenerateNumber(type);
-            GetPriorityInput();
-            GetTitleInput(type);
-            GetDescriptionInput(type);
+            Type type = SetType();
+            int number = SetNumber(type);
+            SetPriority();
+            SetTitle(type);
+            SetDescription(type);
 
             this.type = type;
             this.number = number;
@@ -64,7 +64,7 @@ namespace IssueTracker
             return output;
         }
 
-        private Type GetTypeInput()
+        private Type SetType()
         {
             int userInput;
 
@@ -93,7 +93,7 @@ namespace IssueTracker
             return (Type)userInput;
         }
 
-        private int GenerateNumber(Type type)
+        private int SetNumber(Type type)
         {
             int number;
 
@@ -111,7 +111,7 @@ namespace IssueTracker
             return number;
         }
 
-        private void GetPriorityInput()
+        public void SetPriority()
         {
             int userInput;
             while (true)
@@ -138,7 +138,7 @@ namespace IssueTracker
             this.priority = (Priority)userInput;
         }
 
-        private void GetTitleInput(Type type)
+        public void SetTitle(Type type)
         {
             string userInput;
 
@@ -154,7 +154,7 @@ namespace IssueTracker
             this.title = userInput;
         }
 
-        private void GetDescriptionInput(Type type)
+        public void SetDescription(Type type)
         {
             string userInput;
 
@@ -171,7 +171,7 @@ namespace IssueTracker
             this.description = userInput;
         }
 
-        public void GetStatusInput()
+        public void SetStatus()
         {
             int userInput;
             while (true)
@@ -198,10 +198,24 @@ namespace IssueTracker
             this.status = (Status)userInput;
         }
 
-        public void ChangeTitle()
+        public new Type GetType()
         {
-            Console.WriteLine(string.Format("Old title: {0:g}", title));
-            GetTitleInput(type);
+            return type;
+        }
+
+        public Status GetStatus()
+        {
+            return status;
+        }
+
+        public Priority GetPriority()
+        {
+            return priority;
+        }
+
+        public int GetNumber()
+        {
+            return number;
         }
     }
 }
