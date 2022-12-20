@@ -49,13 +49,13 @@ namespace IssueTracker
                         }
                         break;
                     case 3:
-                        ShowFieldsByType(fields);
+                        ShowFields<Field.Type>(fields, "type");
                         break;
                     case 4:
-                        ShowFieldsByPriority(fields);
+                        ShowFields<Field.Priority>(fields, "priority");
                         break;
                     case 5:
-                        ShowFieldsByStatus(fields);
+                        ShowFields<Field.Status>(fields, "status");
                         break;
                     case 6:
                         exit = true;
@@ -73,7 +73,58 @@ namespace IssueTracker
                 "\n5 - Show by status" +
                 "\n6 - Exit");
         }
+        
+        private static void ShowFields<T>(List<Field> fields, string filterType) where T: Enum
+        {
+            int userInput;
+            int counter = 0;
 
+            while (true)
+            {
+                // loop for printing enum values
+                for (int i = 0; ; i++)
+                {
+                    if (Enum.IsDefined(typeof(T), i))
+                    {
+                        Console.WriteLine((T)(object)i);
+                    } else
+                    {
+                        break;
+                    }
+                }
+                try
+                {
+                    userInput = Int16.Parse(Console.ReadLine());
+                    userInput--;
+                    if (Enum.IsDefined(typeof(T), userInput))
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid input (wrong number), try again\n");
+                    }
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Invalid input (not number), try again\n");
+                }
+            }
+            
+            foreach (Field field in fields)
+            {
+                if (field.GetEnumField(filterType).Equals((T)(object)userInput))
+                {
+                    Console.WriteLine(field.ToString());
+                    counter++;
+                }
+            }
+            if (counter == 0)
+            {
+                Console.WriteLine("No fields for this search parameters!");
+            }
+        }
+        
         private static void ShowFieldsByType(List<Field> fields)
         {
             int userInput;

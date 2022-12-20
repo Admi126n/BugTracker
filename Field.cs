@@ -216,5 +216,20 @@ namespace IssueTracker
         {
             return number;
         }
+
+        public Enum GetEnumField(string returnType)
+        {
+            switch (returnType)
+            {
+                case "priority":
+                    return priority;
+                case "status":
+                    return status;
+                case "type":
+                    return type;
+                default:
+                    return null;
+            }
+        }
     }
 }
