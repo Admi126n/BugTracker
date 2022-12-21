@@ -54,7 +54,7 @@ namespace IssueTracker
         {
             string typ = this.type == Type.Idea ? "ID" : "IS";
 
-            String output = String.Format("\n{0}_{1}\t\t{2}, {3}\n\t[{4}]\n\t{5}",
+            String output = String.Format("{0}_{1}\t\t{2}, {3}\n\t[{4}]\n\t{5}\n",
                 typ,
                 this.number,
                 this.priority,
@@ -70,7 +70,7 @@ namespace IssueTracker
 
             while (true)
             {
-                Console.WriteLine("Choose type:\n1 - Idea\n2 - Issue");
+                Console.Write("\nChoose type:\n1 - Idea\n2 - Issue\nType: ");
                 try
                 {
                     userInput = Int16.Parse(Console.ReadLine());
@@ -115,7 +115,7 @@ namespace IssueTracker
             int userInput;
             while (true)
             {
-                Console.WriteLine("Choose priority:\n1 - Low\n2 - Medium\n3 - High");
+                Console.Write("\nChoose priority:\n1 - Low\n2 - Medium\n3 - High\nPriority: ");
                 try
                 {
                     userInput = Int16.Parse(Console.ReadLine());
@@ -141,8 +141,17 @@ namespace IssueTracker
         {
             string userInput;
 
-            Console.Write(string.Format("Type {0:g} title: ", type));
-            userInput = Console.ReadLine();
+            Console.Write(string.Format("\nType {0:g} title: ", type));
+            do
+            {
+                userInput = Console.ReadLine();
+                if (String.IsNullOrWhiteSpace(userInput))
+                {
+                    Console.WriteLine("\nTitle cannot be empty!\n");
+                    Console.Write(string.Format("\nType {0:g} title: ", type));
+                }
+            } while (String.IsNullOrWhiteSpace(userInput));
+
             if (userInput.Length > 1)
             {
                 userInput = char.ToUpper(userInput[0]) + userInput.Substring(1);
@@ -157,8 +166,16 @@ namespace IssueTracker
         {
             string userInput;
 
-            Console.Write(string.Format("Type {0:g} description: ", type));
-            userInput = Console.ReadLine();
+            Console.Write(string.Format("\nType {0:g} description: ", type));
+            do
+            {
+                userInput = Console.ReadLine();
+                if (String.IsNullOrWhiteSpace(userInput))
+                {
+                    Console.WriteLine("\nDescription cannot be empty!\n");
+                    Console.Write(string.Format("\nType {0:g} title: ", type));
+                }
+            } while (String.IsNullOrWhiteSpace(userInput));
             if (userInput.Length > 1)
             {
                 userInput = char.ToUpper(userInput[0]) + userInput.Substring(1);
@@ -175,7 +192,7 @@ namespace IssueTracker
             int userInput;
             while (true)
             {
-                Console.WriteLine("Choose status:\n1 - Pending\n2 - Ongoing\n3 - Done\n4 - Cancelled");
+                Console.Write("\nChoose status:\n1 - Pending\n2 - Ongoing\n3 - Done\n4 - Cancelled\nStatus: ");
                 try
                 {
                     userInput = Int16.Parse(Console.ReadLine());
@@ -215,6 +232,21 @@ namespace IssueTracker
         public int GetNumber()
         {
             return number;
+        }
+
+        public Enum GetEnumField(string returnType)
+        {
+            switch (returnType)
+            {
+                case "priority":
+                    return priority;
+                case "status":
+                    return status;
+                case "type":
+                    return type;
+                default:
+                    return null;
+            }
         }
     }
 }
