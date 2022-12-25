@@ -8,10 +8,12 @@ namespace IssueTracker
 {
     class IssueTracker
     {
-        static readonly List<Field> fields = new List<Field>();
+        static readonly List<Field> fields = FileHandler.ReadFromFile();
         public static void Main()
         {
             Menu();
+            FileHandler.WriteToFile(fields);
+            FileHandler.SaveNumbers();
         }
 
         private static void Menu()
@@ -31,8 +33,6 @@ namespace IssueTracker
                     }
                     catch (FormatException)
                     {
-                        Console.WriteLine("Invalid input (not number), try again\n");
-                        _ = Console.ReadLine();
                         Console.Clear();
                         PrintMenu();
                     }
@@ -59,6 +59,14 @@ namespace IssueTracker
                         ShowFilteredFields<Field.Status>(fields, "status");
                         break;
                     case 6:
+                        Console.WriteLine("\nWork in progress...");
+                        _ = Console.ReadLine();
+                        break;
+                    case 7:
+                        Console.WriteLine("\nWork in progress...");
+                        _ = Console.ReadLine();
+                        break;
+                    case 8:
                         exit = true;
                         break;
                 }
@@ -73,7 +81,9 @@ namespace IssueTracker
                 "\n3 - Show by type" +
                 "\n4 - Show by priority" +
                 "\n5 - Show by status" +
-                "\n6 - Exit" +
+                "\n6 - Change field priority" +
+                "\n7 - Chamge field status" +
+                "\n8 - Exit" +
                 "\nOption: ");
         }
         
@@ -156,7 +166,7 @@ namespace IssueTracker
         {
             T temp = (T)(object)0;
             string enumType = temp.GetType().ToString().Split('+')[1];
-            string output = "";            
+            string output = "";  // use StringBuilder here?
 
             for (int i = 0; ; i++)
             {
