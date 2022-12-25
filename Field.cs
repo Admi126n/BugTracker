@@ -280,5 +280,15 @@ namespace IssueTracker
         {
             return idMaxNumber;
         }
+
+        public static void SetIdMaxNumber(int idMax)
+        {
+            idMaxNumber = idMax;
+        }
+
+        public static void SetisMaxNumber(int isMax)
+        {
+            isMaxNumber = isMax;
+        }
     }
 }
