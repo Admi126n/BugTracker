@@ -30,8 +30,8 @@ namespace IssueTracker
         private static int isMaxNumber;
         private static int idMaxNumber;
 
-        private readonly Type type;
         private readonly int number;
+        private readonly Type type;
         private Priority priority;
         private Status status;
         private string title;
@@ -48,6 +48,16 @@ namespace IssueTracker
             this.type = type;
             this.number = number;
             status = Status.Pending;
+        }
+
+        public Field(List<string> fieldParams)
+        {
+            number = Int16.Parse(fieldParams[0]);
+            type = (Type)Int16.Parse(fieldParams[1]);
+            priority = (Priority)Int16.Parse(fieldParams[2]);
+            status = (Status)Int16.Parse(fieldParams[3]);
+            title = fieldParams[4];
+            description = fieldParams[5];
         }
 
         public override string ToString()
@@ -137,6 +147,7 @@ namespace IssueTracker
             this.priority = (Priority)userInput;
         }
 
+        // TODO srednik jako znak zakazany (po prostu go usuwac)
         public void SetTitle(Type type)
         {
             string userInput;
@@ -162,6 +173,7 @@ namespace IssueTracker
             this.title = userInput;
         }
 
+        // TODO srednik jako znak zakazany (po prostu go usuwac)
         public void SetDescription(Type type)
         {
             string userInput;
@@ -247,6 +259,26 @@ namespace IssueTracker
                 default:
                     return null;
             }
+        }
+
+        public string GetTitle()
+        {
+            return title;
+        }
+
+        public string GetDescription()
+        {
+            return description;
+        }
+        
+        public static int GetIsMaxNumber()
+        {
+            return isMaxNumber;
+        }
+
+        public static int GetIdMaxNumber()
+        {
+            return idMaxNumber;
         }
     }
 }
