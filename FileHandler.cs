@@ -12,6 +12,8 @@ namespace IssueTracker
     {
         private static string fieldsFile = "file.txt";
         private static string maxNumbersFile = "file.config";
+        private static string currentWorkspace;
+
         public static void WriteFieldsToFile(List<Field> fields, string outputPath = "file.txt")
         {
             if (fields != null)
@@ -116,6 +118,48 @@ namespace IssueTracker
             {
                 Console.WriteLine(string.Format("{0} - {1}", i + 1, workspaces[i]));
             }
+            _ = Console.ReadLine();
+        }
+
+        // TODO check if workspace exist
+        public static void AddWorkspace()
+        {
+            string currentDir = Directory.GetCurrentDirectory();
+            string workspaceName;
+
+            while (true)
+            {
+                Console.Write("Type workspace name (max 20 characters): ");
+                 workspaceName = Console.ReadLine();
+
+                if (String.IsNullOrWhiteSpace(workspaceName))
+                {
+                    Console.WriteLine("\nWorkspace name cannot be empty!\n");
+                }
+                else if (workspaceName.Length > 20)
+                {
+                    Console.WriteLine("\nToo long name\n");
+                }
+                else 
+                {
+                    if (workspaceName.Length > 1)
+                    {
+                        workspaceName = char.ToUpper(workspaceName[0]) + workspaceName.Substring(1);
+                    }
+                    else
+                    {
+                        workspaceName = workspaceName.ToUpper();
+                    }
+                    break;
+                }
+            }
+            
+
+            Directory.CreateDirectory(workspaceName);
+
+            currentWorkspace = currentDir + "\\" + workspaceName;
+
+            Console.WriteLine("\nWorkspace created, press enter to continue\n");
             _ = Console.ReadLine();
         }
     }
