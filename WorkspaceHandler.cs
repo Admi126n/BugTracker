@@ -67,7 +67,7 @@ namespace IssueTracker
             }
             else
             {
-                Console.WriteLine("No available workspaces, press enter to continue");
+                Console.WriteLine("\nNo available workspaces, press enter to continue");
                 _ = Console.ReadLine();
             }
         }
@@ -111,6 +111,7 @@ namespace IssueTracker
                     {
                         Console.WriteLine("\nWorkspace already exist, press enter to continue");
                         _ = Console.ReadLine();
+                        return;
                     }
                 }
             }
@@ -122,14 +123,15 @@ namespace IssueTracker
             _ = Console.ReadLine();
         }
 
-        private void ChooseWorkspace()
+        // TODO add exit option
+        private bool ChooseWorkspace()
         {
             int userInput;
             
             if (availableWorkspacesDict.Count == 0)
             {
                 PrintWorkspaces();
-                return;
+                return false;
             }
 
             while (true)
@@ -144,21 +146,15 @@ namespace IssueTracker
                     {
                         break;
                     }
-                    else
-                    {
-                        Console.WriteLine("\nInvalid input (wrong number), try again");
-                        _ = Console.ReadLine();
-                    }
                 }
-                catch (FormatException)
+                catch (Exception e) when (e is FormatException || e is OverflowException)
                 {
-                    Console.WriteLine("\nInvalid input (not number), try again");
-                    _ = Console.ReadLine();
                 }
             }
 
             SetCurrentWorkspaceName(availableWorkspacesDict[userInput]);
             SetCurrentWorkspacePath(Directory.GetCurrentDirectory() + "\\" + availableWorkspacesDict[userInput]);
+            return true;
         }
 
         public string MainWorkspaceHandler()
@@ -175,9 +171,8 @@ namespace IssueTracker
                         userInput = Int16.Parse(Console.ReadLine());
                         break;
                     }
-                    catch (FormatException)
+                    catch (Exception e) when (e is FormatException || e is OverflowException)
                     {
-                        Console.Clear();
                         PrintWorkspaceMenu();
                     }
                 }
@@ -188,15 +183,18 @@ namespace IssueTracker
                         AddWorkspace();
                         break;
                     case 2:
-                        ChooseWorkspace();
-                        return currentWorkspacePath;
+                        if (ChooseWorkspace())
+                        {
+                            return currentWorkspacePath;
+                        }
+                        break;
                 }
-                Console.Clear();
             }
         }
 
         private void PrintWorkspaceMenu()
         {
+            Console.Clear();
             Console.Write("1 - Add workspace" +
                 "\n2 - Choose workspace" +
                 "\nOption: ");

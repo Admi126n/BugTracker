@@ -10,12 +10,11 @@ namespace IssueTracker
 {
     static class FileHandler
     {
-        //private static string fieldsFile = "file.txt";
-        //private static string maxNumbersFile = "file.config";
-        //private static string currentWorkspace;
-        public static List<Field> ReadFieldsFromFile(string filePath = "file.txt")
+        public static List<Field> ReadFieldsFromFile(string filePath)
         {
             List<Field> fields = new List<Field>();
+
+            filePath = string.Format("{0}\\{1}", filePath, "fields.csv");
             try
             {
                 using (StreamReader sr = new StreamReader(filePath))
@@ -29,16 +28,17 @@ namespace IssueTracker
                 }
                 return fields;
             }
-            catch (FileNotFoundException)
+            catch (Exception e) when (e is FileNotFoundException)
             {
                 return fields;
             }
         }
 
-        public static void WriteFieldsToFile(List<Field> fields, string outputPath = "file.txt")
+        public static void WriteFieldsToFile(List<Field> fields, string outputPath)
         {
             if (fields != null)
             {
+                outputPath = string.Format("{0}\\{1}", outputPath, "fields.csv");
                 StringBuilder csv = new StringBuilder();
                 foreach (Field field in fields)
                 {
@@ -54,11 +54,11 @@ namespace IssueTracker
             }
         }
 
-        public static void ReadMaxNumbersFromFile(string filePath = "file.config")
+        public static void ReadMaxNumbersFromFile(string filePath)
         {
             int maxId = 0;
             int maxIs = 0;
-
+            filePath = string.Format("{0}\\{1}", filePath, ".config");
             try
             {
                 using (StreamReader sr = new StreamReader(filePath))
@@ -72,17 +72,18 @@ namespace IssueTracker
                             maxId = Int16.Parse(lineToList[0]);
                             maxIs = Int16.Parse(lineToList[1]);
                         }
-                        catch (FormatException) { }
+                        catch (Exception e) when (e is FormatException || e is OverflowException) { }
                         Field.SetIdMaxNumber(maxId);
                         Field.SetisMaxNumber(maxIs);
                     }
                 }
             }
-            catch (FileNotFoundException) { }
+            catch (Exception e) when (e is FileNotFoundException) { }
         }
 
-        public static void WriteMaxNumbersToFile(string filePath= "file.config")
+        public static void WriteMaxNumbersToFile(string filePath)
         {
+            filePath = string.Format("{0}\\{1}", filePath, ".config");
             File.WriteAllText(filePath, string.Format("{0};{1}", Field.GetIdMaxNumber(), Field.GetIsMaxNumber()));
         }
 

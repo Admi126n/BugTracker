@@ -94,7 +94,7 @@ namespace IssueTracker
                         Console.WriteLine("Invalid input (wrong number), try again\n");
                     }
                 }
-                catch (FormatException)
+                catch (Exception e) when (e is FormatException || e is OverflowException)
                 {
                     Console.WriteLine("Invalid input (not number), try again\n");
                 }
@@ -139,7 +139,7 @@ namespace IssueTracker
                         Console.WriteLine("Invalid input (wrong number), try again\n");
                     }
                 }
-                catch (FormatException)
+                catch (Exception e) when (e is FormatException || e is OverflowException)
                 {
                     Console.WriteLine("Invalid input (not number), try again\n");
                 }
@@ -218,7 +218,7 @@ namespace IssueTracker
                         Console.WriteLine("Invalid input (wrong number), try again\n");
                     }
                 }
-                catch (FormatException)
+                catch (Exception e) when (e is FormatException || e is OverflowException)
                 {
                     Console.WriteLine("Invalid input (not number), try again\n");
                 }

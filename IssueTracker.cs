@@ -8,21 +8,22 @@ namespace IssueTracker
 {
     class IssueTracker
     {
-        static readonly List<Field> fields = FileHandler.ReadFieldsFromFile();
-        //static readonly List<Field> fields = new List<Field>();
+        static readonly WorkspaceHandler wh = new WorkspaceHandler();
+        static readonly string workspacePath = wh.MainWorkspaceHandler();
+
+        static readonly List<Field> fields = FileHandler.ReadFieldsFromFile(workspacePath);
+
         public static void Main()
-        {
-            //FileHandler.ReadMaxNumbersFromFile();
-            //Menu();
-            //FileHandler.WriteFieldsToFile(fields);
-            //FileHandler.WriteMaxNumbersToFile();
-            //var x = WorkspaceHandler.GetAvailableWorkspaces();
-            //WorkspaceHandler.PrintWorkspaces(x);
-            //WorkspaceHandler.AddWorkspace(x);
-            WorkspaceHandler.SetAvailableWorkspaces();
-            WorkspaceHandler.ChooseWorkspace();
+        {            
+            FileHandler.ReadMaxNumbersFromFile(workspacePath);
+            
+            Menu();
+            
+            FileHandler.WriteFieldsToFile(fields, workspacePath);
+            FileHandler.WriteMaxNumbersToFile(workspacePath);
         }
 
+        // TODO add option to change workspace
         private static void Menu()
         {
             int userInput;
@@ -38,7 +39,7 @@ namespace IssueTracker
                         userInput = Int16.Parse(Console.ReadLine());
                         break;
                     }
-                    catch (FormatException)
+                    catch (Exception e) when (e is FormatException || e is OverflowException)
                     {
                         Console.Clear();
                         PrintMenu();
@@ -81,8 +82,10 @@ namespace IssueTracker
             }
         }
 
+        // TODO print current workspace
         private static void PrintMenu()
         {
+            Console.Clear();
             Console.Write("1 - Add new" +
                 "\n2 - Show all" +
                 "\n3 - Show by type" +
@@ -124,7 +127,6 @@ namespace IssueTracker
 
             while (true)
             {
-
                 PrintEnumValues<T>();
                 try
                 {
@@ -140,7 +142,7 @@ namespace IssueTracker
                         _ = Console.ReadLine();
                     }
                 }
-                catch (FormatException)
+                catch (Exception e) when (e is FormatException || e is OverflowException)
                 {
                     Console.WriteLine("\nInvalid input (not number), try again");
                     _ = Console.ReadLine();
