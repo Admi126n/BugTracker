@@ -147,7 +147,6 @@ namespace IssueTracker
             this.priority = (Priority)userInput;
         }
 
-        // TODO srednik jako znak zakazany (po prostu go usuwac)
         public void SetTitle(Type type)
         {
             string userInput;
@@ -170,10 +169,10 @@ namespace IssueTracker
             {
                 userInput = userInput.ToUpper();
             }
+            userInput = userInput.Replace(';', ',');
             this.title = userInput;
         }
 
-        // TODO srednik jako znak zakazany (po prostu go usuwac)
         public void SetDescription(Type type)
         {
             string userInput;
@@ -196,6 +195,7 @@ namespace IssueTracker
             {
                 userInput = userInput.ToUpper();
             }
+            userInput = userInput.Replace(';', ',');
             this.description = userInput;
         }
 

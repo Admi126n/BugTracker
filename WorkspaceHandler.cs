@@ -34,7 +34,7 @@ namespace IssueTracker
             availableWorkspacesDict = GetAvailableWorkspaces();
         }
 
-        private static Dictionary<int, string> GetAvailableWorkspaces()
+        private Dictionary<int, string> GetAvailableWorkspaces()
         {
             Dictionary<int, string> workspacesDict = new Dictionary<int, string>();
 
@@ -53,6 +53,11 @@ namespace IssueTracker
             }
 
             return workspacesDict;
+        }
+
+        public string GetCurrentWorkspaceName()
+        {
+            return currentWorkspaceName;
         }
 
         private void PrintWorkspaces()

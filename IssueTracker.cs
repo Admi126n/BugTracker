@@ -75,6 +75,10 @@ namespace IssueTracker
                         _ = Console.ReadLine();
                         break;
                     case 8:
+                        Console.WriteLine("\nWork in progress...");
+                        _ = Console.ReadLine();
+                        break;
+                    case 9:
                         exit = true;
                         break;
                 }
@@ -82,10 +86,10 @@ namespace IssueTracker
             }
         }
 
-        // TODO print current workspace
         private static void PrintMenu()
         {
             Console.Clear();
+            Console.WriteLine(string.Format("Current workspace: {0}", wh.GetCurrentWorkspaceName()));
             Console.Write("1 - Add new" +
                 "\n2 - Show all" +
                 "\n3 - Show by type" +
@@ -93,7 +97,8 @@ namespace IssueTracker
                 "\n5 - Show by status" +
                 "\n6 - Change field priority" +
                 "\n7 - Change field status" +
-                "\n8 - Exit" +
+                "\n8 - Delete field" +
+                "\n9 - Exit" +
                 "\nOption: ");
         }
         
@@ -174,7 +179,7 @@ namespace IssueTracker
         {
             T temp = (T)(object)0;
             string enumType = temp.GetType().ToString().Split('+')[1];
-            string output = "";  // use StringBuilder here?
+            string output = "";  // TODO use StringBuilder here?
 
             for (int i = 0; ; i++)
             {
