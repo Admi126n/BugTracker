@@ -12,7 +12,12 @@ namespace IssueTracker
         //var files = Directory.GetFiles(Directory.GetCurrentDirectory());
         private string currentWorkspacePath;
         private string currentWorkspaceName;
-        private static Dictionary<int, string> availableWorkspaces = new Dictionary<int, string>();
+        private Dictionary<int, string> availableWorkspacesDict = new Dictionary<int, string>();
+
+        public WorkspaceHandler()
+        {
+            availableWorkspacesDict = GetAvailableWorkspaces();
+        }
 
         private void SetCurrentWorkspacePath(string path)
         {
@@ -24,12 +29,12 @@ namespace IssueTracker
             currentWorkspaceName = name;
         }
 
-        public static void SetAvailableWorkspaces()
+        private void SetAvailableWorkspacesDict()
         {
-            availableWorkspaces = GetAvailableWorkspaces();
+            availableWorkspacesDict = GetAvailableWorkspaces();
         }
 
-        public static Dictionary<int, string> GetAvailableWorkspaces()
+        private static Dictionary<int, string> GetAvailableWorkspaces()
         {
             Dictionary<int, string> workspacesDict = new Dictionary<int, string>();
 
@@ -50,12 +55,12 @@ namespace IssueTracker
             return workspacesDict;
         }
 
-        public static void PrintWorkspaces()
+        private void PrintWorkspaces()
         {
-            if (availableWorkspaces.Count != 0)
+            if (availableWorkspacesDict.Count != 0)
             {
                 Console.WriteLine("Available workspaces:");
-                foreach (KeyValuePair<int, string> keyValuePair in availableWorkspaces)
+                foreach (KeyValuePair<int, string> keyValuePair in availableWorkspacesDict)
                 {
                     Console.WriteLine(string.Format("{0} - {1}", keyValuePair.Key, keyValuePair.Value));
                 }
@@ -67,23 +72,25 @@ namespace IssueTracker
             }
         }
 
-        public static void AddWorkspace()
+        private void AddWorkspace()
         {
-            string currentDir = Directory.GetCurrentDirectory();
             string workspaceName;
 
             while (true)
             {
+                Console.Clear();
                 Console.Write("Type workspace name (max 20 characters): ");
                 workspaceName = Console.ReadLine();
 
                 if (String.IsNullOrWhiteSpace(workspaceName))
                 {
-                    Console.WriteLine("\nWorkspace name cannot be empty!\n");
+                    Console.WriteLine("\nWorkspace name cannot be empty, press enter to continue");
+                    _ = Console.ReadLine();
                 }
                 else if (workspaceName.Length > 20)
                 {
-                    Console.WriteLine("\nToo long workspace name!\n");
+                    Console.WriteLine("\nToo long workspace name, press enter to continue");
+                    _ = Console.ReadLine();
                 }
                 else
                 {
@@ -96,35 +103,44 @@ namespace IssueTracker
                         workspaceName = workspaceName.ToUpper();
                     }
 
-                    if (!availableWorkspaces.ContainsValue(workspaceName))
+                    if (!availableWorkspacesDict.ContainsValue(workspaceName))
                     {
                         break;
                     }
                     else
                     {
-                        Console.WriteLine("\nWorkspace already exist\n");
+                        Console.WriteLine("\nWorkspace already exist, press enter to continue");
+                        _ = Console.ReadLine();
                     }
                 }
             }
 
             Directory.CreateDirectory(workspaceName);
+            SetAvailableWorkspacesDict();
 
             Console.WriteLine("\nWorkspace created, press enter to continue\n");
             _ = Console.ReadLine();
         }
 
-        public static void ChooseWorkspace()
+        private void ChooseWorkspace()
         {
             int userInput;
             
+            if (availableWorkspacesDict.Count == 0)
+            {
+                PrintWorkspaces();
+                return;
+            }
+
             while (true)
             {
+                Console.Clear();
                 PrintWorkspaces();
                 Console.Write("Workspace: ");
                 try
                 {
                     userInput = Int16.Parse(Console.ReadLine());
-                    if (availableWorkspaces.ContainsKey(userInput))
+                    if (availableWorkspacesDict.ContainsKey(userInput))
                     {
                         break;
                     }
@@ -140,10 +156,50 @@ namespace IssueTracker
                     _ = Console.ReadLine();
                 }
             }
-            
-            
-            
-           
+
+            SetCurrentWorkspaceName(availableWorkspacesDict[userInput]);
+            SetCurrentWorkspacePath(Directory.GetCurrentDirectory() + "\\" + availableWorkspacesDict[userInput]);
+        }
+
+        public string MainWorkspaceHandler()
+        {
+            int userInput;
+
+            while (true)
+            {
+                PrintWorkspaceMenu();
+                while (true)
+                {
+                    try
+                    {
+                        userInput = Int16.Parse(Console.ReadLine());
+                        break;
+                    }
+                    catch (FormatException)
+                    {
+                        Console.Clear();
+                        PrintWorkspaceMenu();
+                    }
+                }
+
+                switch (userInput)
+                {
+                    case 1:
+                        AddWorkspace();
+                        break;
+                    case 2:
+                        ChooseWorkspace();
+                        return currentWorkspacePath;
+                }
+                Console.Clear();
+            }
+        }
+
+        private void PrintWorkspaceMenu()
+        {
+            Console.Write("1 - Add workspace" +
+                "\n2 - Choose workspace" +
+                "\nOption: ");
         }
     }
 }
