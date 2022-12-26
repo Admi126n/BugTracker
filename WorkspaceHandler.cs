@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,36 +9,64 @@ namespace IssueTracker
 {
     class WorkspaceHandler
     {
-        public static void PrintWorkspaces(string filepath = "Test")
-        {
-            string[] directories = Directory.GetDirectories(Directory.GetCurrentDirectory());
-            //var files = Directory.GetFiles(Directory.GetCurrentDirectory());
-            int dirsNumber = directories.Length;
+        //var files = Directory.GetFiles(Directory.GetCurrentDirectory());
+        private string currentWorkspacePath;
+        private string currentWorkspaceName;
+        private static Dictionary<int, string> availableWorkspaces = new Dictionary<int, string>();
 
-            List<string> workspaces = new List<string>();
+        private void SetCurrentWorkspacePath(string path)
+        {
+            currentWorkspacePath = path;
+        }
+
+        private void SetCurrentWorkspaceName(string name)
+        {
+            currentWorkspaceName = name;
+        }
+
+        public static void SetAvailableWorkspaces()
+        {
+            availableWorkspaces = GetAvailableWorkspaces();
+        }
+
+        public static Dictionary<int, string> GetAvailableWorkspaces()
+        {
+            Dictionary<int, string> workspacesDict = new Dictionary<int, string>();
+
+            string[] directories = Directory.GetDirectories(Directory.GetCurrentDirectory());
+            int dirsNumber = directories.Length;
 
             if (dirsNumber == 0)
             {
-                Console.WriteLine("No workspaces");
-                _ = Console.ReadLine();
-                return;
+                return workspacesDict;
+            }
+            
+            for (int i = 0; i < dirsNumber; i++)
+            {
+                string[] workspaceName = directories[i].Split('\\');
+                workspacesDict.Add(i + 1, workspaceName[workspaceName.Length - 1]);
+            }
+
+            return workspacesDict;
+        }
+
+        public static void PrintWorkspaces()
+        {
+            if (availableWorkspaces.Count != 0)
+            {
+                Console.WriteLine("Available workspaces:");
+                foreach (KeyValuePair<int, string> keyValuePair in availableWorkspaces)
+                {
+                    Console.WriteLine(string.Format("{0} - {1}", keyValuePair.Key, keyValuePair.Value));
+                }
             }
             else
             {
-                for (int i = 0; i < dirsNumber; i++)
-                {
-                    string[] WorkspaceName = directories[i].Split('\\');
-                    workspaces.Add(WorkspaceName[WorkspaceName.Length - 1]);
-                }
+                Console.WriteLine("No available workspaces, press enter to continue");
+                _ = Console.ReadLine();
             }
-            for (int i = 0; i < dirsNumber; i++)
-            {
-                Console.WriteLine(string.Format("{0} - {1}", i + 1, workspaces[i]));
-            }
-            _ = Console.ReadLine();
         }
 
-        // TODO check if workspace exist
         public static void AddWorkspace()
         {
             string currentDir = Directory.GetCurrentDirectory();
@@ -54,7 +83,7 @@ namespace IssueTracker
                 }
                 else if (workspaceName.Length > 20)
                 {
-                    Console.WriteLine("\nToo long name\n");
+                    Console.WriteLine("\nToo long workspace name!\n");
                 }
                 else
                 {
@@ -66,17 +95,55 @@ namespace IssueTracker
                     {
                         workspaceName = workspaceName.ToUpper();
                     }
-                    break;
+
+                    if (!availableWorkspaces.ContainsValue(workspaceName))
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("\nWorkspace already exist\n");
+                    }
                 }
             }
 
-
             Directory.CreateDirectory(workspaceName);
-
-            currentWorkspace = currentDir + "\\" + workspaceName;
 
             Console.WriteLine("\nWorkspace created, press enter to continue\n");
             _ = Console.ReadLine();
+        }
+
+        public static void ChooseWorkspace()
+        {
+            int userInput;
+            
+            while (true)
+            {
+                PrintWorkspaces();
+                Console.Write("Workspace: ");
+                try
+                {
+                    userInput = Int16.Parse(Console.ReadLine());
+                    if (availableWorkspaces.ContainsKey(userInput))
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("\nInvalid input (wrong number), try again");
+                        _ = Console.ReadLine();
+                    }
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("\nInvalid input (not number), try again");
+                    _ = Console.ReadLine();
+                }
+            }
+            
+            
+            
+           
         }
     }
 }

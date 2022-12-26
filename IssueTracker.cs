@@ -8,12 +8,19 @@ namespace IssueTracker
 {
     class IssueTracker
     {
-        static readonly List<Field> fields = FileHandler.ReadFromFile();
+        static readonly List<Field> fields = FileHandler.ReadFieldsFromFile();
+        //static readonly List<Field> fields = new List<Field>();
         public static void Main()
         {
-            Menu();
-            FileHandler.WriteToFile(fields);
-            FileHandler.SaveNumbers();
+            //FileHandler.ReadMaxNumbersFromFile();
+            //Menu();
+            //FileHandler.WriteFieldsToFile(fields);
+            //FileHandler.WriteMaxNumbersToFile();
+            //var x = WorkspaceHandler.GetAvailableWorkspaces();
+            //WorkspaceHandler.PrintWorkspaces(x);
+            //WorkspaceHandler.AddWorkspace(x);
+            WorkspaceHandler.SetAvailableWorkspaces();
+            WorkspaceHandler.ChooseWorkspace();
         }
 
         private static void Menu()
@@ -82,7 +89,7 @@ namespace IssueTracker
                 "\n4 - Show by priority" +
                 "\n5 - Show by status" +
                 "\n6 - Change field priority" +
-                "\n7 - Chamge field status" +
+                "\n7 - Change field status" +
                 "\n8 - Exit" +
                 "\nOption: ");
         }
@@ -159,7 +166,6 @@ namespace IssueTracker
                 Console.WriteLine("\nPress enter to continue");
                 _ = Console.ReadLine();
             } 
-                
         }
         
         public static void PrintEnumValues<T>() where T : Enum
