@@ -74,7 +74,7 @@ namespace IssueTracker
                         }
                         catch (Exception e) when (e is FormatException || e is OverflowException) { }
                         Field.SetIdMaxNumber(maxId);
-                        Field.SetisMaxNumber(maxIs);
+                        Field.SetIsMaxNumber(maxIs);
                     }
                 }
             }
