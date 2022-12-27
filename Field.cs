@@ -27,15 +27,15 @@ namespace IssueTracker
             Cancelled = 3
         }
 
-        private static int isMaxNumber;
-        private static int idMaxNumber;
+        private static int _idMaxNumber;
+        private static int _isMaxNumber;
 
-        private readonly Type type;
-        private readonly int number;
-        private Priority priority;
-        private Status status;
-        private string title;
-        private string description;
+        private readonly int _number;
+        private readonly Type _type;
+        private Priority _priority;
+        private Status _status;
+        private string _title;
+        private string _description;
 
         public Field()
         {
@@ -45,69 +45,43 @@ namespace IssueTracker
             SetTitle(type);
             SetDescription(type);
 
-            this.type = type;
-            this.number = number;
-            status = Status.Pending;
+            _number = number;
+            _type = type;
+            _status = Status.Pending;
+        }
+
+        public Field(List<string> fieldParams)
+        {
+            _number = Int16.Parse(fieldParams[0]);
+            _type = (Type)Int16.Parse(fieldParams[1]);
+            _priority = (Priority)Int16.Parse(fieldParams[2]);
+            _status = (Status)Int16.Parse(fieldParams[3]);
+            _title = fieldParams[4];
+            _description = fieldParams[5];
         }
 
         public override string ToString()
         {
-            string typ = this.type == Type.Idea ? "ID" : "IS";
+            string type = _type == Type.Idea ? "ID" : "IS";
 
-            String output = String.Format("{0}_{1}\t\t{2}, {3}\n\t[{4}]\n\t{5}\n",
-                typ,
-                this.number,
-                this.priority,
-                this.status,
-                this.title,
-                this.description);
+            string output = string.Format("{0}_{1}\t\t{2}, {3}\n\t[{4}]\n\t{5}\n",
+                type,
+                _number,
+                _priority,
+                _status,
+                _title,
+                _description);
             return output;
         }
 
-        private Type SetType()
+        public static void SetIdMaxNumber(int idMax)
         {
-            int userInput;
-
-            while (true)
-            {
-                Console.Write("\nChoose type:\n1 - Idea\n2 - Issue\nType: ");
-                try
-                {
-                    userInput = Int16.Parse(Console.ReadLine());
-                    userInput--;
-                    if (Enum.IsDefined(typeof(Type), userInput))
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid input (wrong number), try again\n");
-                    }
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("Invalid input (not number), try again\n");
-                }
-            }           
-            return (Type)userInput;
+            _idMaxNumber = idMax;
         }
 
-        private int SetNumber(Type type)
+        public static void SetIsMaxNumber(int isMax)
         {
-            int number;
-
-            if (type == Type.Idea)
-            {
-                number = idMaxNumber;
-                idMaxNumber++;
-            }
-            else
-            {
-                number = isMaxNumber;
-                isMaxNumber++;
-            }
-
-            return number;
+            _isMaxNumber = isMax;
         }
 
         public void SetPriority()
@@ -115,7 +89,11 @@ namespace IssueTracker
             int userInput;
             while (true)
             {
-                Console.Write("\nChoose priority:\n1 - Low\n2 - Medium\n3 - High\nPriority: ");
+                Console.Write("\nChoose priority:" +
+                    "\n1 - Low" +
+                    "\n2 - Medium" +
+                    "\n3 - High" +
+                    "\nOption: ");
                 try
                 {
                     userInput = Int16.Parse(Console.ReadLine());
@@ -124,17 +102,35 @@ namespace IssueTracker
                     {
                         break;
                     }
-                    else
+                }
+                catch (Exception e) when (e is FormatException || e is OverflowException) { }
+            }
+            _priority = (Priority)userInput;
+        }
+
+        public void SetStatus()
+        {
+            int userInput;
+            while (true)
+            {
+                Console.Write("\nChoose status:" +
+                    "\n1 - Pending" +
+                    "\n2 - Ongoing" +
+                    "\n3 - Done" +
+                    "\n4 - Cancelled" +
+                    "\nOption: ");
+                try
+                {
+                    userInput = Int16.Parse(Console.ReadLine());
+                    userInput--;
+                    if (Enum.IsDefined(typeof(Status), userInput))
                     {
-                        Console.WriteLine("Invalid input (wrong number), try again\n");
+                        break;
                     }
                 }
-                catch (FormatException)
-                {
-                    Console.WriteLine("Invalid input (not number), try again\n");
-                }
+                catch (Exception e) when (e is FormatException || e is OverflowException) { }
             }
-            this.priority = (Priority)userInput;
+            _status = (Status)userInput;
         }
 
         public void SetTitle(Type type)
@@ -145,12 +141,12 @@ namespace IssueTracker
             do
             {
                 userInput = Console.ReadLine();
-                if (String.IsNullOrWhiteSpace(userInput))
+                if (string.IsNullOrWhiteSpace(userInput))
                 {
                     Console.WriteLine("\nTitle cannot be empty!\n");
                     Console.Write(string.Format("\nType {0:g} title: ", type));
                 }
-            } while (String.IsNullOrWhiteSpace(userInput));
+            } while (string.IsNullOrWhiteSpace(userInput));
 
             if (userInput.Length > 1)
             {
@@ -159,7 +155,8 @@ namespace IssueTracker
             {
                 userInput = userInput.ToUpper();
             }
-            this.title = userInput;
+            userInput = userInput.Replace(';', ',');
+            _title = userInput;
         }
 
         public void SetDescription(Type type)
@@ -170,12 +167,12 @@ namespace IssueTracker
             do
             {
                 userInput = Console.ReadLine();
-                if (String.IsNullOrWhiteSpace(userInput))
+                if (string.IsNullOrWhiteSpace(userInput))
                 {
                     Console.WriteLine("\nDescription cannot be empty!\n");
                     Console.Write(string.Format("\nType {0:g} title: ", type));
                 }
-            } while (String.IsNullOrWhiteSpace(userInput));
+            } while (string.IsNullOrWhiteSpace(userInput));
             if (userInput.Length > 1)
             {
                 userInput = char.ToUpper(userInput[0]) + userInput.Substring(1);
@@ -184,54 +181,61 @@ namespace IssueTracker
             {
                 userInput = userInput.ToUpper();
             }
-            this.description = userInput;
+            userInput = userInput.Replace(';', ',');
+            _description = userInput;
         }
 
-        public void SetStatus()
+        public void SetEnumField(string setType)
         {
-            int userInput;
-            while (true)
+            switch (setType)
             {
-                Console.Write("\nChoose status:\n1 - Pending\n2 - Ongoing\n3 - Done\n4 - Cancelled\nStatus: ");
-                try
-                {
-                    userInput = Int16.Parse(Console.ReadLine());
-                    userInput--;
-                    if (Enum.IsDefined(typeof(Status), userInput))
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid input (wrong number), try again\n");
-                    }
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("Invalid input (not number), try again\n");
-                }
+                case "priority":
+                    SetPriority();
+                    break;
+                case "status":
+                    SetStatus();
+                    break;
             }
-            this.status = (Status)userInput;
         }
 
-        public new Type GetType()
+        public static int GetIdMaxNumber()
         {
-            return type;
+            return _idMaxNumber;
         }
-
-        public Status GetStatus()
+        
+        public static int GetIsMaxNumber()
         {
-            return status;
-        }
-
-        public Priority GetPriority()
-        {
-            return priority;
+            return _isMaxNumber;
         }
 
         public int GetNumber()
         {
-            return number;
+            return _number;
+        }
+
+        public new Type GetType()
+        {
+            return _type;
+        }
+
+        public Priority GetPriority()
+        {
+            return _priority;
+        }
+
+        public Status GetStatus()
+        {
+            return _status;
+        }
+
+        public string GetTitle()
+        {
+            return _title;
+        }
+
+        public string GetDescription()
+        {
+            return _description;
         }
 
         public Enum GetEnumField(string returnType)
@@ -239,14 +243,62 @@ namespace IssueTracker
             switch (returnType)
             {
                 case "priority":
-                    return priority;
+                    return _priority;
                 case "status":
-                    return status;
+                    return _status;
                 case "type":
-                    return type;
+                    return _type;
                 default:
                     return null;
             }
+        }
+
+        public bool CheckId(string code)
+        {
+            string type = _type == Type.Idea ? "ID" : "IS";
+            string fieldCode = string.Format("{0}_{1}", type, _number);
+
+            return string.Equals(code, fieldCode);
+        }
+
+        private int SetNumber(Type type)
+        {
+            int number;
+
+            if (type == Type.Idea)
+            {
+                number = _idMaxNumber++;
+            }
+            else
+            {
+                number = _isMaxNumber++;
+            }
+
+            return number;
+        }
+
+        private Type SetType()
+        {
+            int userInput;
+
+            while (true)
+            {
+                Console.Write("\nChoose type:" +
+                    "\n1 - Idea" +
+                    "\n2 - Issue" +
+                    "\nOption: ");
+                try
+                {
+                    userInput = Int16.Parse(Console.ReadLine());
+                    userInput--;
+                    if (Enum.IsDefined(typeof(Type), userInput))
+                    {
+                        break;
+                    }
+                }
+                catch (Exception e) when (e is FormatException || e is OverflowException) { }
+            }
+            return (Type)userInput;
         }
     }
 }

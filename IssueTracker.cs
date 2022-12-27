@@ -8,10 +8,19 @@ namespace IssueTracker
 {
     class IssueTracker
     {
-        static readonly List<Field> fields = new List<Field>();
+        static readonly WorkspaceHandler wh = new WorkspaceHandler();
+        static string workspacePath = wh.MainWorkspaceHandler();
+
+        static List<Field> fields = FileHandler.ReadFieldsFromFile(workspacePath);
+
         public static void Main()
-        {
+        {            
+            FileHandler.ReadMaxNumbersFromFile(workspacePath);
+            
             Menu();
+            
+            FileHandler.WriteFieldsToFile(fields, workspacePath);
+            FileHandler.WriteMaxNumbersToFile(workspacePath);
         }
 
         private static void Menu()
@@ -29,11 +38,8 @@ namespace IssueTracker
                         userInput = Int16.Parse(Console.ReadLine());
                         break;
                     }
-                    catch (FormatException)
+                    catch (Exception e) when (e is FormatException || e is OverflowException)
                     {
-                        Console.WriteLine("Invalid input (not number), try again\n");
-                        _ = Console.ReadLine();
-                        Console.Clear();
                         PrintMenu();
                     }
                 }
@@ -47,132 +53,45 @@ namespace IssueTracker
                         _ = Console.ReadLine();
                         break;
                     case 2:
-                        ShowAllFields(fields);
+                        FieldPrinter.MainFieldPrinter(fields);
                         break;
                     case 3:
-                        ShowFilteredFields<Field.Type>(fields, "type");
+                        FieldEditor.MainFieldEditor(fields);
                         break;
                     case 4:
-                        ShowFilteredFields<Field.Priority>(fields, "priority");
+                        ChangeWorkspace();
                         break;
                     case 5:
-                        ShowFilteredFields<Field.Status>(fields, "status");
-                        break;
-                    case 6:
                         exit = true;
                         break;
                 }
-                Console.Clear();
             }
         }
 
         private static void PrintMenu()
         {
+            Console.Clear();
+            Console.WriteLine(string.Format("Current workspace: {0}", wh.GetCurrentWorkspaceName()));
             Console.Write("1 - Add new" +
-                "\n2 - Show all" +
-                "\n3 - Show by type" +
-                "\n4 - Show by priority" +
-                "\n5 - Show by status" +
-                "\n6 - Exit" +
+                "\n2 - Show fields" +
+                "\n3 - Edit fields" +
+                "\n4 - Change workspace" +
+                "\n5 - Exit" +
                 "\nOption: ");
         }
-        
-        private static void ShowAllFields(List<Field> fields)
+
+        private static void ChangeWorkspace()
         {
-            Console.Clear();
-            int counter = 0;
-            foreach (Field field in fields)
-            {
-                if (field.GetStatus() != Field.Status.Done)
-                {
-                    Console.WriteLine(field.ToString());
-                    counter++;
-                }
-            }
-            if (counter == 0)
-            {
-                Console.WriteLine("\nNo fields with status != Done, press enter to continue");
-                _ = Console.ReadLine();
-            } else
-            {
-                Console.WriteLine("\nPress enter to continue");
-                _ = Console.ReadLine();
-            }
-        }
+            FileHandler.WriteFieldsToFile(fields, workspacePath);
+            FileHandler.WriteMaxNumbersToFile(workspacePath);
 
-        private static void ShowFilteredFields<T>(List<Field> fields, string filterType) where T: Enum
-        {
-            int userInput;
-            int counter = 0;
+            workspacePath = wh.MainWorkspaceHandler();
 
-            while (true)
-            {
+            fields = FileHandler.ReadFieldsFromFile(workspacePath);
+            FileHandler.ReadMaxNumbersFromFile(workspacePath);
 
-                PrintEnumValues<T>();
-                try
-                {
-                    userInput = Int16.Parse(Console.ReadLine());
-                    userInput--;
-                    if (Enum.IsDefined(typeof(T), userInput))
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        Console.WriteLine("\nInvalid input (wrong number), try again");
-                        _ = Console.ReadLine();
-                    }
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("\nInvalid input (not number), try again");
-                    _ = Console.ReadLine();
-                }
-            }
-
-            Console.Clear();
-            foreach (Field field in fields)
-            {
-                if (field.GetEnumField(filterType).Equals((T)(object)userInput))
-                {
-                    Console.WriteLine(field.ToString());
-                    counter++;
-                }
-            }
-            if (counter == 0)
-            {
-                Console.WriteLine("\nNo fields for this search parameters, press enter to continue");
-                _ = Console.ReadLine();
-            }
-            else
-            {
-                Console.WriteLine("\nPress enter to continue");
-                _ = Console.ReadLine();
-            } 
-                
-        }
-        
-        public static void PrintEnumValues<T>() where T : Enum
-        {
-            T temp = (T)(object)0;
-            string enumType = temp.GetType().ToString().Split('+')[1];
-            string output = "";            
-
-            for (int i = 0; ; i++)
-            {
-                if (Enum.IsDefined(typeof(T), i))
-                {
-                    output += string.Format("{0} - {1}\n", i + 1, (T)(object)i);
-                }
-                else
-                {
-                    break;
-                }
-            }
-            Console.Clear();
-            Console.WriteLine(string.Format("Choose {0}", enumType));
-            Console.Write(output);
-            Console.Write(string.Format("{0}: ", enumType));
+            Console.WriteLine("\nWorkspace changed, press enter to continue");
+            _ = Console.ReadLine();
         }
     }   
 }
