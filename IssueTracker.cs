@@ -116,7 +116,7 @@ namespace IssueTracker
             }
             if (counter == 0)
             {
-                Console.WriteLine("\nNo fields with status != Done, press enter to continue");
+                Console.WriteLine("No fields with status != Done, press enter to continue");
                 _ = Console.ReadLine();
             } else
             {

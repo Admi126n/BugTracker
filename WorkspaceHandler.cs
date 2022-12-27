@@ -129,25 +129,26 @@ namespace IssueTracker
         }
 
         // TODO add exit option
-        private bool ChooseWorkspace()
+        private int ChooseWorkspace()
         {
             int userInput;
             
             if (availableWorkspacesDict.Count == 0)
             {
                 PrintWorkspaces();
-                return false;
+                return 0;
             }
 
             while (true)
             {
                 Console.Clear();
                 PrintWorkspaces();
-                Console.Write("Workspace: ");
+                Console.WriteLine(string.Format("\n{0} - Exit", availableWorkspacesDict.Count() + 1));
+                Console.Write("Option: ");
                 try
                 {
                     userInput = Int16.Parse(Console.ReadLine());
-                    if (availableWorkspacesDict.ContainsKey(userInput))
+                    if (availableWorkspacesDict.ContainsKey(userInput) || userInput == availableWorkspacesDict.Count() + 1)
                     {
                         break;
                     }
@@ -157,9 +158,16 @@ namespace IssueTracker
                 }
             }
 
-            SetCurrentWorkspaceName(availableWorkspacesDict[userInput]);
-            SetCurrentWorkspacePath(Directory.GetCurrentDirectory() + "\\" + availableWorkspacesDict[userInput]);
-            return true;
+            if (userInput == availableWorkspacesDict.Count() + 1)
+            {
+                return -1;
+            }
+            else
+            {
+                SetCurrentWorkspaceName(availableWorkspacesDict[userInput]);
+                SetCurrentWorkspacePath(Directory.GetCurrentDirectory() + "\\" + availableWorkspacesDict[userInput]);
+                return 1;
+            }
         }
 
         public string MainWorkspaceHandler()
@@ -188,7 +196,7 @@ namespace IssueTracker
                         AddWorkspace();
                         break;
                     case 2:
-                        if (ChooseWorkspace())
+                        if (ChooseWorkspace() == 1)
                         {
                             return currentWorkspacePath;
                         }
