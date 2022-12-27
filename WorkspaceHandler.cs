@@ -9,7 +9,6 @@ namespace IssueTracker
 {
     class WorkspaceHandler
     {
-        //var files = Directory.GetFiles(Directory.GetCurrentDirectory());
         private string currentWorkspacePath;
         private string currentWorkspaceName;
         private Dictionary<int, string> availableWorkspacesDict = new Dictionary<int, string>();
@@ -128,7 +127,6 @@ namespace IssueTracker
             _ = Console.ReadLine();
         }
 
-        // TODO add exit option
         private int ChooseWorkspace()
         {
             int userInput;
