@@ -85,9 +85,18 @@ namespace IssueTracker
                         Field.SetIdMaxNumber(maxId);
                         Field.SetIsMaxNumber(maxIs);
                     }
+                    else
+                    {
+                        Field.SetIdMaxNumber(0);
+                        Field.SetIsMaxNumber(0);
+                    }
                 }
             }
-            catch (Exception e) when (e is FileNotFoundException) { }
+            catch (Exception e) when (e is FileNotFoundException) 
+            {
+                Field.SetIdMaxNumber(0);
+                Field.SetIsMaxNumber(0);
+            }
         }
 
         public static void WriteMaxNumbersToFile(string filePath)

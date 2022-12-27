@@ -84,7 +84,6 @@ namespace IssueTracker
             _isMaxNumber = isMax;
         }
 
-        // TODO make parametrized (like FieldPrinter.PrintEnumValues())
         public void SetPriority()
         {
             int userInput;
@@ -109,7 +108,6 @@ namespace IssueTracker
             _priority = (Priority)userInput;
         }
 
-        // TODO make parametrized (like FieldPrinter.PrintEnumValues())
         public void SetStatus()
         {
             int userInput;
@@ -279,7 +277,6 @@ namespace IssueTracker
             return number;
         }
 
-        // TODO make parametrized (like FieldPrinter.PrintEnumValues())
         private Type SetType()
         {
             int userInput;

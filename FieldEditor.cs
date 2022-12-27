@@ -37,8 +37,7 @@ namespace IssueTracker
                         EditField(fields, "status");
                         return;
                     case 3:
-                        Console.WriteLine("Work in progress...");
-                        _ = Console.ReadLine();
+                        DeleteField(fields);
                         return;
                     case 4:
                         return;
@@ -55,7 +54,6 @@ namespace IssueTracker
                 "\n4 - Exit" +
                 "\nOption: ");
         }
-
 
         private static void EditField(List<Field> fields, string setType)
         {
@@ -101,9 +99,58 @@ namespace IssueTracker
             _ = Console.ReadLine();
         }
 
-        private static void DeleteField()
+        private static void DeleteField(List<Field> fields)
         {
+            bool exit = false;
+            string userInput;
 
+            List<string> fieldsIds = new List<string>();
+
+            foreach (Field field in fields)
+            {
+                string type = field.GetType() == Field.Type.Idea ? "ID" : "IS";
+                fieldsIds.Add(string.Format("{0}_{1}", type, field.GetNumber()));
+            }
+
+            while (!exit)
+            {
+                Console.Clear();
+                Console.Write("Type idea/issue ID ('ex' - exit): ");
+                userInput = Console.ReadLine();
+
+                if (string.Equals(userInput, "ex"))
+                {
+                    return;
+                }
+                if (!fieldsIds.Contains(userInput))
+                {
+                    continue;
+                }
+
+                for (int i = 0; i < fieldsIds.Count(); i++)
+                {
+                    if (fields[i].CheckId(userInput))
+                    {
+                        Console.Write(string.Format("\nAre You sure you want to delete field {0}? (y/n) ", fieldsIds[i]));
+                        userInput = Console.ReadLine();
+
+                        if (string.Equals(userInput, "y"))
+                        {
+                            fields.RemoveAt(i);
+                            Console.WriteLine("\nField deleted, press enter to continue");
+                            _ = Console.ReadLine();
+                        }
+                        else
+                        {
+                            Console.WriteLine("\nAborted, press enter to continue");
+                            _ = Console.ReadLine();
+                        }
+
+                        exit = true;
+                        break;
+                    }
+                }
+            }
         }
     }
 }

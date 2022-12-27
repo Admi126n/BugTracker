@@ -9,9 +9,9 @@ namespace IssueTracker
     class IssueTracker
     {
         static readonly WorkspaceHandler wh = new WorkspaceHandler();
-        static readonly string workspacePath = wh.MainWorkspaceHandler();
+        static string workspacePath = wh.MainWorkspaceHandler();
 
-        static readonly List<Field> fields = FileHandler.ReadFieldsFromFile(workspacePath);
+        static List<Field> fields = FileHandler.ReadFieldsFromFile(workspacePath);
 
         public static void Main()
         {            
@@ -23,7 +23,6 @@ namespace IssueTracker
             FileHandler.WriteMaxNumbersToFile(workspacePath);
         }
 
-        // TODO add option to change workspace
         private static void Menu()
         {
             int userInput;
@@ -60,8 +59,7 @@ namespace IssueTracker
                         FieldEditor.MainFieldEditor(fields);
                         break;
                     case 4:
-                        Console.WriteLine("\nWork in progress...");
-                        _ = Console.ReadLine();
+                        ChangeWorkspace();
                         break;
                     case 5:
                         exit = true;
@@ -80,6 +78,20 @@ namespace IssueTracker
                 "\n4 - Change workspace" +
                 "\n5 - Exit" +
                 "\nOption: ");
+        }
+
+        private static void ChangeWorkspace()
+        {
+            FileHandler.WriteFieldsToFile(fields, workspacePath);
+            FileHandler.WriteMaxNumbersToFile(workspacePath);
+
+            workspacePath = wh.MainWorkspaceHandler();
+
+            fields = FileHandler.ReadFieldsFromFile(workspacePath);
+            FileHandler.ReadMaxNumbersFromFile(workspacePath);
+
+            Console.WriteLine("\nWorkspace changed, press enter to continue");
+            _ = Console.ReadLine();
         }
     }   
 }
