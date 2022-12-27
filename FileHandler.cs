@@ -14,7 +14,10 @@ namespace IssueTracker
         {
             List<Field> fields = new List<Field>();
 
-            filePath = string.Format("{0}\\{1}", filePath, "fields.csv");
+            filePath = string.Format("{0}\\{1}", 
+                filePath, 
+                "fields.csv");
+
             try
             {
                 using (StreamReader sr = new StreamReader(filePath))
@@ -38,7 +41,10 @@ namespace IssueTracker
         {
             if (fields != null)
             {
-                outputPath = string.Format("{0}\\{1}", outputPath, "fields.csv");
+                outputPath = string.Format("{0}\\{1}", 
+                    outputPath, 
+                    "fields.csv");
+                
                 StringBuilder csv = new StringBuilder();
                 foreach (Field field in fields)
                 {
@@ -58,7 +64,10 @@ namespace IssueTracker
         {
             int maxId = 0;
             int maxIs = 0;
-            filePath = string.Format("{0}\\{1}", filePath, ".config");
+            filePath = string.Format("{0}\\{1}", 
+                filePath, 
+                ".config");
+            
             try
             {
                 using (StreamReader sr = new StreamReader(filePath))
@@ -83,8 +92,13 @@ namespace IssueTracker
 
         public static void WriteMaxNumbersToFile(string filePath)
         {
-            filePath = string.Format("{0}\\{1}", filePath, ".config");
-            File.WriteAllText(filePath, string.Format("{0};{1}", Field.GetIdMaxNumber(), Field.GetIsMaxNumber()));
+            filePath = string.Format("{0}\\{1}", 
+                filePath, 
+                ".config");
+
+            File.WriteAllText(filePath, string.Format("{0};{1}", 
+                Field.GetIdMaxNumber(), 
+                Field.GetIsMaxNumber()));
         }
 
         public static void GenerateTexFile(string outputPath, List<Field> fields)

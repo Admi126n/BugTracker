@@ -8,16 +8,6 @@ namespace IssueTracker
 {
     static class FieldPrinter
     {
-        private static void PrintPrinterMenu()
-        {
-            Console.Clear();
-            Console.Write("1 - Show all fields" +
-                "\n2 - Show by type" +
-                "\n3 - Show by status" +
-                "\n4 - Show by priority" +
-                "\nOption: ");
-        }
-
         public static void MainFieldPrinter(List<Field> fields)
         {
             int userInput;
@@ -54,6 +44,16 @@ namespace IssueTracker
                         return;
                 }
             }
+        }
+
+        private static void PrintPrinterMenu()
+        {
+            Console.Clear();
+            Console.Write("1 - Show all fields" +
+                "\n2 - Show by type" +
+                "\n3 - Show by status" +
+                "\n4 - Show by priority" +
+                "\nOption: ");
         }
 
         private static void ShowAllFields(List<Field> fields)

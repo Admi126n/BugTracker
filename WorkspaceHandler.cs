@@ -9,28 +9,68 @@ namespace IssueTracker
 {
     class WorkspaceHandler
     {
-        private string currentWorkspacePath;
-        private string currentWorkspaceName;
-        private Dictionary<int, string> availableWorkspacesDict = new Dictionary<int, string>();
+        private string _currentWorkspacePath;
+        private string _currentWorkspaceName;
+        private Dictionary<int, string> _availableWorkspacesDict = new Dictionary<int, string>();
 
         public WorkspaceHandler()
         {
-            availableWorkspacesDict = GetAvailableWorkspaces();
+            _availableWorkspacesDict = GetAvailableWorkspaces();
+        }
+
+        public string GetCurrentWorkspaceName()
+        {
+            return _currentWorkspaceName;
+        }
+
+        public string MainWorkspaceHandler()
+        {
+            int userInput;
+
+            while (true)
+            {
+                PrintWorkspaceMenu();
+                while (true)
+                {
+                    try
+                    {
+                        userInput = Int16.Parse(Console.ReadLine());
+                        break;
+                    }
+                    catch (Exception e) when (e is FormatException || e is OverflowException)
+                    {
+                        PrintWorkspaceMenu();
+                    }
+                }
+
+                switch (userInput)
+                {
+                    case 1:
+                        AddWorkspace();
+                        break;
+                    case 2:
+                        if (ChooseWorkspace() == 1)
+                        {
+                            return _currentWorkspacePath;
+                        }
+                        break;
+                }
+            }
         }
 
         private void SetCurrentWorkspacePath(string path)
         {
-            currentWorkspacePath = path;
+            _currentWorkspacePath = path;
         }
 
         private void SetCurrentWorkspaceName(string name)
         {
-            currentWorkspaceName = name;
+            _currentWorkspaceName = name;
         }
 
         private void SetAvailableWorkspacesDict()
         {
-            availableWorkspacesDict = GetAvailableWorkspaces();
+            _availableWorkspacesDict = GetAvailableWorkspaces();
         }
 
         private Dictionary<int, string> GetAvailableWorkspaces()
@@ -54,17 +94,12 @@ namespace IssueTracker
             return workspacesDict;
         }
 
-        public string GetCurrentWorkspaceName()
-        {
-            return currentWorkspaceName;
-        }
-
         private void PrintWorkspaces()
         {
-            if (availableWorkspacesDict.Count != 0)
+            if (_availableWorkspacesDict.Count != 0)
             {
                 Console.WriteLine("Available workspaces:");
-                foreach (KeyValuePair<int, string> keyValuePair in availableWorkspacesDict)
+                foreach (KeyValuePair<int, string> keyValuePair in _availableWorkspacesDict)
                 {
                     Console.WriteLine(string.Format("{0} - {1}", keyValuePair.Key, keyValuePair.Value));
                 }
@@ -107,7 +142,7 @@ namespace IssueTracker
                         workspaceName = workspaceName.ToUpper();
                     }
 
-                    if (!availableWorkspacesDict.ContainsValue(workspaceName))
+                    if (!_availableWorkspacesDict.ContainsValue(workspaceName))
                     {
                         break;
                     }
@@ -131,7 +166,7 @@ namespace IssueTracker
         {
             int userInput;
             
-            if (availableWorkspacesDict.Count == 0)
+            if (_availableWorkspacesDict.Count == 0)
             {
                 PrintWorkspaces();
                 return 0;
@@ -141,12 +176,12 @@ namespace IssueTracker
             {
                 Console.Clear();
                 PrintWorkspaces();
-                Console.WriteLine(string.Format("\n{0} - Exit", availableWorkspacesDict.Count() + 1));
+                Console.WriteLine(string.Format("\n{0} - Exit", _availableWorkspacesDict.Count() + 1));
                 Console.Write("Option: ");
                 try
                 {
                     userInput = Int16.Parse(Console.ReadLine());
-                    if (availableWorkspacesDict.ContainsKey(userInput) || userInput == availableWorkspacesDict.Count() + 1)
+                    if (_availableWorkspacesDict.ContainsKey(userInput) || userInput == _availableWorkspacesDict.Count() + 1)
                     {
                         break;
                     }
@@ -156,50 +191,15 @@ namespace IssueTracker
                 }
             }
 
-            if (userInput == availableWorkspacesDict.Count() + 1)
+            if (userInput == _availableWorkspacesDict.Count() + 1)
             {
                 return -1;
             }
             else
             {
-                SetCurrentWorkspaceName(availableWorkspacesDict[userInput]);
-                SetCurrentWorkspacePath(Directory.GetCurrentDirectory() + "\\" + availableWorkspacesDict[userInput]);
+                SetCurrentWorkspaceName(_availableWorkspacesDict[userInput]);
+                SetCurrentWorkspacePath(Directory.GetCurrentDirectory() + "\\" + _availableWorkspacesDict[userInput]);
                 return 1;
-            }
-        }
-
-        public string MainWorkspaceHandler()
-        {
-            int userInput;
-
-            while (true)
-            {
-                PrintWorkspaceMenu();
-                while (true)
-                {
-                    try
-                    {
-                        userInput = Int16.Parse(Console.ReadLine());
-                        break;
-                    }
-                    catch (Exception e) when (e is FormatException || e is OverflowException)
-                    {
-                        PrintWorkspaceMenu();
-                    }
-                }
-
-                switch (userInput)
-                {
-                    case 1:
-                        AddWorkspace();
-                        break;
-                    case 2:
-                        if (ChooseWorkspace() == 1)
-                        {
-                            return currentWorkspacePath;
-                        }
-                        break;
-                }
             }
         }
 
