@@ -187,6 +187,19 @@ namespace IssueTracker
             _description = userInput;
         }
 
+        public void SetEnumField(string setType)
+        {
+            switch (setType)
+            {
+                case "priority":
+                    SetPriority();
+                    break;
+                case "status":
+                    SetStatus();
+                    break;
+            }
+        }
+
         public static int GetIdMaxNumber()
         {
             return _idMaxNumber;
@@ -240,6 +253,14 @@ namespace IssueTracker
                 default:
                     return null;
             }
+        }
+
+        public bool CheckId(string code)
+        {
+            string type = _type == Type.Idea ? "ID" : "IS";
+            string fieldCode = string.Format("{0}_{1}", type, _number);
+
+            return string.Equals(code, fieldCode);
         }
 
         private int SetNumber(Type type)

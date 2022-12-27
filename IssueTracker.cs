@@ -57,8 +57,7 @@ namespace IssueTracker
                         FieldPrinter.MainFieldPrinter(fields);
                         break;
                     case 3:
-                        Console.WriteLine("\nWork in progress...");
-                        _ = Console.ReadLine();
+                        FieldEditor.MainFieldEditor(fields);
                         break;
                     case 4:
                         Console.WriteLine("\nWork in progress...");
