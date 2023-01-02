@@ -9,12 +9,12 @@ type, priority or status.
 - Showing all items or filter by type/status/priority
 - Editing status/priority
 - Changing workspace
+- Deleting workspace
 
 #### Planed functions:
 - Editing title/description
-- Deleting workspace
 
 #### Version
-1.0.0
+1.1.0
 
-Copyright (c) 2022, Adam Tokarski.
+Copyright (c) 2023, Adam Tokarski.
