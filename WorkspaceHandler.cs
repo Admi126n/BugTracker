@@ -55,6 +55,9 @@ namespace IssueTracker
                         }
                         break;
                     case 3:
+                        DeleteWorkspace();
+                        break;
+                    case 4:
                         Environment.Exit(0);
                         break;
                 }
@@ -99,6 +102,7 @@ namespace IssueTracker
 
         private void PrintWorkspaces()
         {
+            Console.Clear();
             if (_availableWorkspacesDict.Count != 0)
             {
                 Console.WriteLine("Available workspaces:");
@@ -177,7 +181,6 @@ namespace IssueTracker
 
             while (true)
             {
-                Console.Clear();
                 PrintWorkspaces();
                 Console.WriteLine(string.Format("\n{0} - Exit", _availableWorkspacesDict.Count() + 1));
                 Console.Write("Option: ");
@@ -189,9 +192,7 @@ namespace IssueTracker
                         break;
                     }
                 }
-                catch (Exception e) when (e is FormatException || e is OverflowException)
-                {
-                }
+                catch (Exception e) when (e is FormatException || e is OverflowException) { }
             }
 
             if (userInput == _availableWorkspacesDict.Count() + 1)
@@ -206,12 +207,65 @@ namespace IssueTracker
             }
         }
 
+        private void DeleteWorkspace()
+        {
+            int userInput;
+            string userInputStr;
+
+            if (_availableWorkspacesDict.Count == 0)
+            {
+                PrintWorkspaces();
+                return;
+            }
+
+            while (true)
+            {
+                PrintWorkspaces();
+                Console.WriteLine(string.Format("\n{0} - Exit", _availableWorkspacesDict.Count() + 1));
+                Console.Write("Workspace to delete: ");
+                try
+                {
+                    userInput = Int16.Parse(Console.ReadLine());
+                    if (_availableWorkspacesDict.ContainsKey(userInput) || userInput == _availableWorkspacesDict.Count() + 1)
+                    {
+                        break;
+                    }
+                }
+                catch (Exception e) when (e is FormatException || e is OverflowException) { }
+            }
+
+            if (userInput == _availableWorkspacesDict.Count() + 1)
+            {
+                return;
+            }
+            else
+            {
+                Console.Write(string.Format("\nAre You sure you want to delete workspace {0}? (y/n) ", _availableWorkspacesDict[userInput]));
+                userInputStr = Console.ReadLine();
+
+                if (string.Equals(userInputStr, "y"))
+                {
+                    Directory.Delete(Directory.GetCurrentDirectory() + "\\" + _availableWorkspacesDict[userInput], true);
+                    SetAvailableWorkspacesDict();
+                    
+                    Console.WriteLine("\nWorkspace deleted, press enter to continue");
+                    _ = Console.ReadLine();
+                }
+                else
+                {
+                    Console.WriteLine("\nAborted, press enter to continue");
+                    _ = Console.ReadLine();
+                }
+            }
+        }
+
         private void PrintWorkspaceMenu()
         {
             Console.Clear();
             Console.Write("1 - Add workspace" +
                 "\n2 - Choose workspace" +
-                "\n3 - Exit" +
+                "\n3 - Delete workspace" +
+                "\n4 - Exit" +
                 "\nOption: ");
         }
     }
