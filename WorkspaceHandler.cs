@@ -54,6 +54,9 @@ namespace IssueTracker
                             return _currentWorkspacePath;
                         }
                         break;
+                    case 3:
+                        Environment.Exit(0);
+                        break;
                 }
             }
         }
@@ -208,6 +211,7 @@ namespace IssueTracker
             Console.Clear();
             Console.Write("1 - Add workspace" +
                 "\n2 - Choose workspace" +
+                "\n3 - Exit" +
                 "\nOption: ");
         }
     }
