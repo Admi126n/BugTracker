@@ -10,11 +10,18 @@ type, priority or status.
 - Editing status/priority
 - Changing workspace
 - Deleting workspace
-
-#### Planed functions:
 - Editing title/description
 
+#### Planed updates:
+- Option to generate .tex file with all issues/ideas
+- Graphical user interface
+
 #### Version
-1.1.0
+1.2.0
+
+Changelog:
+- 1.2.0 - Added option to edit idea/issue title/description
+- 1.1.0 - Added option to delete workspace
+- 1.0.0 - Working program (without editing title/description and deleting workspaces)
 
 Copyright (c) 2023, Adam Tokarski.

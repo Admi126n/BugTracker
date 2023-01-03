@@ -37,9 +37,15 @@ namespace IssueTracker
                         EditField(fields, "status");
                         return;
                     case 3:
-                        DeleteField(fields);
+                        EditField(fields, "title");
                         return;
                     case 4:
+                        EditField(fields, "description");
+                        return;
+                    case 5:
+                        DeleteField(fields);
+                        return;
+                    case 6:
                         return;
                 }
             }
@@ -50,8 +56,10 @@ namespace IssueTracker
             Console.Clear();
             Console.Write("1 - Change priority" +
                 "\n2 - Change status" +
-                "\n3 - Delete field" +
-                "\n4 - Exit" +
+                "\n3 - Change title" +
+                "\n4 - Change description" +
+                "\n5 - Delete field" +
+                "\n6 - Exit" +
                 "\nOption: ");
         }
 
@@ -87,7 +95,7 @@ namespace IssueTracker
                 {
                     if (fields[i].CheckId(userInput))
                     {
-                        fields[i].SetEnumField(setType);
+                        fields[i].SetPrivateField(setType);
 
                         exit = true;
                         break;

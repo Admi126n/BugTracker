@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace IssueTracker
 {
@@ -133,13 +134,22 @@ namespace IssueTracker
             _status = (Status)userInput;
         }
 
-        public void SetTitle(Type type)
+        public void SetTitle(Type type, bool printOld=false)
         {
             string userInput;
 
-            Console.Write(string.Format("\nType {0:g} title: ", type));
+            if (!printOld)
+            {
+                Console.Write(string.Format("\nType {0:g} title: ", type));
+            }
             do
             {
+                if (printOld)
+                {
+                    Console.WriteLine("Old title:");
+                    SendKeys.SendWait(_title);
+                }
+
                 userInput = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(userInput))
                 {
@@ -159,13 +169,23 @@ namespace IssueTracker
             _title = userInput;
         }
 
-        public void SetDescription(Type type)
+        public void SetDescription(Type type, bool printOld = false)
         {
             string userInput;
 
-            Console.Write(string.Format("\nType {0:g} description: ", type));
+            if (!printOld)
+            {
+                Console.Write(string.Format("\nType {0:g} description: ", type));
+            }
+
             do
             {
+                if (printOld)
+                {
+                    Console.WriteLine("Old description:");
+                    SendKeys.SendWait(_description);
+                }
+
                 userInput = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(userInput))
                 {
@@ -185,7 +205,7 @@ namespace IssueTracker
             _description = userInput;
         }
 
-        public void SetEnumField(string setType)
+        public void SetPrivateField(string setType)
         {
             switch (setType)
             {
@@ -194,6 +214,12 @@ namespace IssueTracker
                     break;
                 case "status":
                     SetStatus();
+                    break;
+                case "title":
+                    SetTitle(_type, true);
+                    break;
+                case "description":
+                    SetDescription(_type, true);
                     break;
             }
         }
