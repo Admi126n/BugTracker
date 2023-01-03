@@ -19,4 +19,9 @@ type, priority or status.
 #### Version
 1.2.0
 
+Changelog:
+- 1.2.0 - Added option to edit idea/issue title/description
+- 1.1.0 - Added option to delete workspace
+- 1.0.0 - Working program (without editing title/description and deleting workspaces)
+
 Copyright (c) 2023, Adam Tokarski.
