@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IssueTracker
+namespace BugTracker
 {
-    class IssueTracker
+    class BugTracker
     {
         static readonly WorkspaceHandler wh = new WorkspaceHandler();
         static string workspacePath = wh.MainWorkspaceHandler();

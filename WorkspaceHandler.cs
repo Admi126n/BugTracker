@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IssueTracker
+namespace BugTracker
 {
     class WorkspaceHandler
     {
@@ -113,7 +113,7 @@ namespace IssueTracker
             }
             else
             {
-                Console.WriteLine("\nNo available workspaces, press enter to continue");
+                Console.WriteLine("No available workspaces, press enter to continue");
                 _ = Console.ReadLine();
             }
         }

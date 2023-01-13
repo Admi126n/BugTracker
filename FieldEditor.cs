@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IssueTracker
+namespace BugTracker
 {
     static class FieldEditor
     {
@@ -72,14 +72,14 @@ namespace IssueTracker
 
             foreach (Field field in fields)
             {
-                string type = field.GetType() == Field.Type.Idea ? "ID" : "IS";
+                string type = field.GetType() == Field.Type.Idea ? "ID" : "BUG";
                 fieldsIds.Add(string.Format("{0}_{1}", type, field.GetNumber()));
             }
 
             while (!exit)
             {
                 Console.Clear();
-                Console.Write("Type idea/issue ID ('ex' - exit): ");
+                Console.Write("Type idea/bug ID ('ex' - exit): ");
                 userInput = Console.ReadLine();
 
                 if (string.Equals(userInput, "ex"))
@@ -116,14 +116,14 @@ namespace IssueTracker
 
             foreach (Field field in fields)
             {
-                string type = field.GetType() == Field.Type.Idea ? "ID" : "IS";
+                string type = field.GetType() == Field.Type.Idea ? "ID" : "BUG";
                 fieldsIds.Add(string.Format("{0}_{1}", type, field.GetNumber()));
             }
 
             while (!exit)
             {
                 Console.Clear();
-                Console.Write("Type idea/issue ID ('ex' - exit): ");
+                Console.Write("Type idea/bug ID ('ex' - exit): ");
                 userInput = Console.ReadLine();
 
                 if (string.Equals(userInput, "ex"))

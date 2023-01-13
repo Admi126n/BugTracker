@@ -13,14 +13,18 @@ type, priority or status.
 - Editing title/description
 
 #### Planed updates:
-- Option to generate .tex file with all issues/ideas
+- Option to generate .tex file with all bugs/ideas
 - Graphical user interface
+
+#### Manual
+After compiling code create directory (e.g. BugTracker) in which you want to store BugTracker files.
+After that put .exe file inside. You can use it to run program or you can create shortcut and run program with it.
 
 #### Version
 1.2.0
 
 Changelog:
-- 1.2.0 - Added option to edit idea/issue title/description
+- 1.2.0 - Added option to edit idea/bug title/description
 - 1.1.0 - Added option to delete workspace
 - 1.0.0 - Working program (without editing title/description and deleting workspaces)
 

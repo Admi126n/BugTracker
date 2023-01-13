@@ -5,14 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace IssueTracker
+namespace BugTracker
 {
     class Field
     {
         public enum Type
         {
             Idea = 0,
-            Issue = 1
+            Bug = 1
         }
         public enum Priority
         {
@@ -29,7 +29,7 @@ namespace IssueTracker
         }
 
         private static int _idMaxNumber;
-        private static int _isMaxNumber;
+        private static int _bugMaxNumber;
 
         private readonly int _number;
         private readonly Type _type;
@@ -63,7 +63,7 @@ namespace IssueTracker
 
         public override string ToString()
         {
-            string type = _type == Type.Idea ? "ID" : "IS";
+            string type = _type == Type.Idea ? "ID" : "BUG";
 
             string output = string.Format("{0}_{1}\t\t{2}, {3}\n\t[{4}]\n\t{5}\n",
                 type,
@@ -80,9 +80,9 @@ namespace IssueTracker
             _idMaxNumber = idMax;
         }
 
-        public static void SetIsMaxNumber(int isMax)
+        public static void SetBugMaxNumber(int bugMax)
         {
-            _isMaxNumber = isMax;
+            _bugMaxNumber = bugMax;
         }
 
         public void SetPriority()
@@ -229,9 +229,9 @@ namespace IssueTracker
             return _idMaxNumber;
         }
         
-        public static int GetIsMaxNumber()
+        public static int GetBugMaxNumber()
         {
-            return _isMaxNumber;
+            return _bugMaxNumber;
         }
 
         public int GetNumber()
@@ -281,7 +281,7 @@ namespace IssueTracker
 
         public bool CheckId(string code)
         {
-            string type = _type == Type.Idea ? "ID" : "IS";
+            string type = _type == Type.Idea ? "ID" : "BUG";
             string fieldCode = string.Format("{0}_{1}", type, _number);
 
             return string.Equals(code, fieldCode);
@@ -297,7 +297,7 @@ namespace IssueTracker
             }
             else
             {
-                number = _isMaxNumber++;
+                number = _bugMaxNumber++;
             }
 
             return number;
@@ -311,7 +311,7 @@ namespace IssueTracker
             {
                 Console.Write("\nChoose type:" +
                     "\n1 - Idea" +
-                    "\n2 - Issue" +
+                    "\n2 - Bug" +
                     "\nOption: ");
                 try
                 {
