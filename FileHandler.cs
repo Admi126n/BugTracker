@@ -133,7 +133,42 @@ namespace BugTracker
 
         public static void GenerateTexFile(string outputPath, List<Field> fields)
         {
+            // TODO check characters forbridden in latex
+            string header = "\\documentclass{article}\\usepackage[english]{babel}\\usepackage[a4paper, top = 2cm, bottom = 2cm, left = 2cm, right = 2cm, marginparwidth = 1.75cm]{geometry}\\begin{document}{\\textbf{\\huge BugTracker listing(\\today)}}";
+            string bugsHeader = "\\section{Bugs}";
+            string ideasHeader = "\\section{Ideas}";
+            string end = "\\end{document}";
+            StringBuilder bugs = new StringBuilder();
+            StringBuilder ideas = new StringBuilder();
+            string type = "";
 
+            foreach (Field field in fields)
+            {
+                type = field.GetType() == Field.Type.Idea ? "ID" : "IS";
+
+                if (string.Equals("IS", type))
+                {
+                    bugs.Append(string.Format("\\textbf{{{0}$\\_${1}\\hfill {2}, {3}}}\\textbf{{\\\\{4}}}\\\\{5}\\vspace{{20pt}}\n",
+                        type,
+                        field.GetNumber(),
+                        field.GetPriority(),
+                        field.GetStatus(),
+                        field.GetTitle(),
+                        field.GetDescription()));
+                } else
+                {
+                    ideas.Append(string.Format("\\textbf{{{0}$\\_${1}\\hfill {2}, {3}}}\\textbf{{\\\\{4}}}\\\\{5}\\vspace{{20pt}}\n",
+                        type,
+                        field.GetNumber(),
+                        field.GetPriority(),
+                        field.GetStatus(),
+                        field.GetTitle(),
+                        field.GetDescription()));
+                }
+            }
+            Console.WriteLine(bugs);
+            Console.WriteLine(ideas);
+            _ = Console.ReadLine();
         }
     }
 }
