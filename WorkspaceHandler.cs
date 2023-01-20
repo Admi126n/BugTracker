@@ -124,6 +124,9 @@ namespace BugTracker
 
             while (true)
             {
+                /* TODO Direcroty name forbridden characters:
+                \ / [ ] : ¦ < > + = ; , * ? "
+                */
                 Console.Clear();
                 Console.Write("Type workspace name (max 20 characters): ");
                 workspaceName = Console.ReadLine();

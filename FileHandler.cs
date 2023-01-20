@@ -133,7 +133,15 @@ namespace BugTracker
 
         public static void GenerateTexFile(string outputPath, List<Field> fields)
         {
-            // TODO check characters forbridden in latex
+            /*
+            TODO Latex special characters:
+                Without ecsaping:
+                    ! @ ( ) + - = ? , : . * " ' / `
+                With escaping:
+                     \% \{ \} \# \_ \$  \&  \^{} {[} {]}
+                With special commnds:
+                    \textless \textgreater \textbar \textasciitilde $\backslash$
+             */
             string header = "\\documentclass{article}\\usepackage[english]{babel}\\usepackage[a4paper, top = 2cm, bottom = 2cm, left = 2cm, right = 2cm, marginparwidth = 1.75cm]{geometry}\\begin{document}{\\textbf{\\huge BugTracker listing(\\today)}}";
             string bugsHeader = "\\section{Bugs}";
             string ideasHeader = "\\section{Ideas}";
