@@ -38,6 +38,9 @@ namespace BugTracker
         private string _title;
         private string _description;
 
+        /// <summary>
+        /// Creates Field object
+        /// </summary>
         public Field()
         {
             Type type = SetType();
@@ -51,6 +54,11 @@ namespace BugTracker
             _status = Status.Pending;
         }
 
+        /// <summary>
+        /// Creates Field object with parameters given as a list
+        /// </summary>
+        /// <param name="fieldParams">List of id, Type, Priority, Status, title, description given as strings.
+        /// Type, Priority, Status are given as number</param>
         public Field(List<string> fieldParams)
         {
             _number = Int16.Parse(fieldParams[0]);
@@ -61,6 +69,10 @@ namespace BugTracker
             _description = fieldParams[5];
         }
 
+        /// <summary>
+        /// Converts Field object to string
+        /// </summary>
+        /// <returns>Field object converted to string</returns>
         public override string ToString()
         {
             string type = _type == Type.Idea ? "ID" : "BUG";
@@ -75,16 +87,27 @@ namespace BugTracker
             return output;
         }
 
+        /// <summary>
+        /// Stes static idMaxNumber
+        /// </summary>
+        /// <param name="idMax">int value</param>
         public static void SetIdMaxNumber(int idMax)
         {
             _idMaxNumber = idMax;
         }
 
+        /// <summary>
+        /// Sets static bugMaxNumber
+        /// </summary>
+        /// <param name="bugMax">int value</param>
         public static void SetBugMaxNumber(int bugMax)
         {
             _bugMaxNumber = bugMax;
         }
 
+        /// <summary>
+        /// Gets user input and sets Priority of Field object
+        /// </summary>
         public void SetPriority()
         {
             int userInput;
@@ -109,6 +132,9 @@ namespace BugTracker
             _priority = (Priority)userInput;
         }
 
+        /// <summary>
+        /// Gets user input and sets Seatus of Field object
+        /// </summary>
         public void SetStatus()
         {
             int userInput;
@@ -134,6 +160,11 @@ namespace BugTracker
             _status = (Status)userInput;
         }
 
+        /// <summary>
+        /// Get user input and sets title of Field object. If printOld=true prints old title as editable text
+        /// </summary>
+        /// <param name="type">Type of Field object</param>
+        /// <param name="printOld">bool value</param>
         public void SetTitle(Type type, bool printOld=false)
         {
             string userInput;
@@ -166,9 +197,15 @@ namespace BugTracker
                 userInput = userInput.ToUpper();
             }
             userInput = userInput.Replace(';', ',');
+            userInput = userInput.Replace('\\', '/');
             _title = userInput;
         }
 
+        /// <summary>
+        /// Get user input and sets description of Field object. If printOld=true prints old description as editable text
+        /// </summary>
+        /// <param name="type">Type of Field object</param>
+        /// <param name="printOld">bool value</param>
         public void SetDescription(Type type, bool printOld = false)
         {
             string userInput;
@@ -202,6 +239,7 @@ namespace BugTracker
                 userInput = userInput.ToUpper();
             }
             userInput = userInput.Replace(';', ',');
+            userInput = userInput.Replace('\\', '/');
             _description = userInput;
         }
 

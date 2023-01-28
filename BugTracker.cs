@@ -13,16 +13,22 @@ namespace BugTracker
 
         static List<Field> fields = FileHandler.ReadFieldsFromFile(workspacePath);
 
+        /// <summary>
+        /// Main program function
+        /// </summary>
         public static void Main()
         {            
             FileHandler.ReadMaxNumbersFromFile(workspacePath);
-            
+
             Menu();
-            
+
             FileHandler.WriteFieldsToFile(fields, workspacePath);
             FileHandler.WriteMaxNumbersToFile(workspacePath);
         }
 
+        /// <summary>
+        /// Gets user input and run choosen functions
+        /// </summary>
         private static void Menu()
         {
             int userInput;
@@ -59,15 +65,21 @@ namespace BugTracker
                         FieldEditor.MainFieldEditor(fields);
                         break;
                     case 4:
-                        ChangeWorkspace();
+                        FileHandler.GenerateTexFile("BugTrackerListing", fields);
                         break;
                     case 5:
+                        ChangeWorkspace();
+                        break;
+                    case 6:
                         exit = true;
                         break;
                 }
             }
         }
 
+        /// <summary>
+        /// Prints main menu program
+        /// </summary>
         private static void PrintMenu()
         {
             Console.Clear();
@@ -75,11 +87,15 @@ namespace BugTracker
             Console.Write("1 - Add new" +
                 "\n2 - Show fields" +
                 "\n3 - Edit fields" +
-                "\n4 - Change workspace" +
-                "\n5 - Exit" +
+                "\n4 - Generate tex file" +
+                "\n5 - Change workspace" +
+                "\n6 - Exit" +
                 "\nOption: ");
         }
 
+        /// <summary>
+        /// Save fields and max numbers to file and changes workspace
+        /// </summary>
         private static void ChangeWorkspace()
         {
             FileHandler.WriteFieldsToFile(fields, workspacePath);

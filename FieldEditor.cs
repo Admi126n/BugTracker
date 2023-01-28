@@ -8,6 +8,10 @@ namespace BugTracker
 {
     static class FieldEditor
     {
+        /// <summary>
+        /// Main FieldEditor func, gets user input and runs choosen funcs
+        /// </summary>
+        /// <param name="fields">list of Field objects</param>
         public static void MainFieldEditor(List<Field> fields)
         {
             int userInput;
@@ -51,6 +55,9 @@ namespace BugTracker
             }
         }
 
+        /// <summary>
+        /// Prints FieldEditor menu
+        /// </summary>
         private static void PrintEditorMenu()
         {
             Console.Clear();
@@ -63,6 +70,11 @@ namespace BugTracker
                 "\nOption: ");
         }
 
+        /// <summary>
+        /// Gets bug/idea ID and runs func for changing enum field given in 'setType' of given Field object
+        /// </summary>
+        /// <param name="fields">list of Field objects</param>
+        /// <param name="setType">type of Enum field which have to be setted</param>
         private static void EditField(List<Field> fields, string setType)
         {
             bool exit = false;
@@ -107,6 +119,10 @@ namespace BugTracker
             _ = Console.ReadLine();
         }
 
+        /// <summary>
+        /// Gets user input with idea/bug ID and deletes it
+        /// </summary>
+        /// <param name="fields">list of Field objects</param>
         private static void DeleteField(List<Field> fields)
         {
             bool exit = false;
