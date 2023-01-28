@@ -23,9 +23,10 @@ After that put .exe file inside. You can use it to run program or you can create
 Generated .tex file has been tested in https://www.overleaf.com
 
 #### Version
-1.3.0
+1.3.1
 
 Changelog:
+- 1.3.1 - Added removing characters which are forbidden as directory name from workspace name
 - 1.3.0 - Added option to generate .txt file with tex code
 - 1.2.0 - Added option to edit idea/bug title/description
 - 1.1.0 - Added option to delete workspace
