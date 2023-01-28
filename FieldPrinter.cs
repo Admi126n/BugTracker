@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace IssueTracker
+namespace BugTracker
 {
+    /// <summary>
+    /// Class with methods needed for writong to console Field objects list
+    /// </summary>
     static class FieldPrinter
     {
+        /// <summary>
+        /// Main FieldPrinter func, gets user input and runs choosen funcs
+        /// </summary>
+        /// <param name="fields">list of Field objects</param>
         public static void MainFieldPrinter(List<Field> fields)
         {
             int userInput;
@@ -46,6 +51,9 @@ namespace IssueTracker
             }
         }
 
+        /// <summary>
+        /// Prints FieldPrinter menu
+        /// </summary>
         private static void PrintPrinterMenu()
         {
             Console.Clear();
@@ -56,6 +64,10 @@ namespace IssueTracker
                 "\nOption: ");
         }
 
+        /// <summary>
+        /// Writes to console all fields from given list
+        /// </summary>
+        /// <param name="fields">list of Fields objects</param>
         private static void ShowAllFields(List<Field> fields)
         {
             Console.Clear();
@@ -80,6 +92,12 @@ namespace IssueTracker
             }
         }
 
+        /// <summary>
+        /// Writes to console fields from given list filtered by given parameters
+        /// </summary>
+        /// <typeparam name="T">wanted enum type</typeparam>
+        /// <param name="fields">list of Field objects</param>
+        /// <param name="filterType">wanted enum type as string</param>
         private static void ShowFilteredFields<T>(List<Field> fields, string filterType) where T : Enum
         {
             int userInput;
@@ -121,6 +139,10 @@ namespace IssueTracker
             }
         }
 
+        /// <summary>
+        /// Writes to console all values from given enum type
+        /// </summary>
+        /// <typeparam name="T">enum type</typeparam>
         private static void PrintEnumValues<T>() where T : Enum
         {
             T temp = (T)(object)0;

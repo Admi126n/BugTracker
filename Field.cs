@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace IssueTracker
+namespace BugTracker
 {
+    /// <summary>
+    /// Field class with static max idea/bug numbers, and needed enums
+    /// </summary>
     class Field
     {
         public enum Type
         {
             Idea = 0,
-            Issue = 1
+            Bug = 1
         }
         public enum Priority
         {
@@ -29,7 +29,7 @@ namespace IssueTracker
         }
 
         private static int _idMaxNumber;
-        private static int _isMaxNumber;
+        private static int _bugMaxNumber;
 
         private readonly int _number;
         private readonly Type _type;
@@ -38,6 +38,9 @@ namespace IssueTracker
         private string _title;
         private string _description;
 
+        /// <summary>
+        /// Creates Field object
+        /// </summary>
         public Field()
         {
             Type type = SetType();
@@ -51,6 +54,11 @@ namespace IssueTracker
             _status = Status.Pending;
         }
 
+        /// <summary>
+        /// Creates Field object with parameters given as a list
+        /// </summary>
+        /// <param name="fieldParams">List of id, Type, Priority, Status, title, description given as strings.
+        /// Type, Priority, Status are given as number</param>
         public Field(List<string> fieldParams)
         {
             _number = Int16.Parse(fieldParams[0]);
@@ -61,9 +69,13 @@ namespace IssueTracker
             _description = fieldParams[5];
         }
 
+        /// <summary>
+        /// Converts Field object to string
+        /// </summary>
+        /// <returns>Field object converted to string</returns>
         public override string ToString()
         {
-            string type = _type == Type.Idea ? "ID" : "IS";
+            string type = _type == Type.Idea ? "ID" : "BUG";
 
             string output = string.Format("{0}_{1}\t\t{2}, {3}\n\t[{4}]\n\t{5}\n",
                 type,
@@ -75,16 +87,27 @@ namespace IssueTracker
             return output;
         }
 
+        /// <summary>
+        /// Stes static idMaxNumber
+        /// </summary>
+        /// <param name="idMax">int value</param>
         public static void SetIdMaxNumber(int idMax)
         {
             _idMaxNumber = idMax;
         }
 
-        public static void SetIsMaxNumber(int isMax)
+        /// <summary>
+        /// Sets static bugMaxNumber
+        /// </summary>
+        /// <param name="bugMax">int value</param>
+        public static void SetBugMaxNumber(int bugMax)
         {
-            _isMaxNumber = isMax;
+            _bugMaxNumber = bugMax;
         }
 
+        /// <summary>
+        /// Gets user input and sets Priority of Field object
+        /// </summary>
         public void SetPriority()
         {
             int userInput;
@@ -109,6 +132,9 @@ namespace IssueTracker
             _priority = (Priority)userInput;
         }
 
+        /// <summary>
+        /// Gets user input and sets Seatus of Field object
+        /// </summary>
         public void SetStatus()
         {
             int userInput;
@@ -134,6 +160,11 @@ namespace IssueTracker
             _status = (Status)userInput;
         }
 
+        /// <summary>
+        /// Get user input and sets title of Field object. If printOld=true prints old title as editable text
+        /// </summary>
+        /// <param name="type">Type of Field object</param>
+        /// <param name="printOld">bool value</param>
         public void SetTitle(Type type, bool printOld=false)
         {
             string userInput;
@@ -166,9 +197,15 @@ namespace IssueTracker
                 userInput = userInput.ToUpper();
             }
             userInput = userInput.Replace(';', ',');
+            userInput = userInput.Replace('\\', '/');
             _title = userInput;
         }
 
+        /// <summary>
+        /// Get user input and sets description of Field object. If printOld=true prints old description as editable text
+        /// </summary>
+        /// <param name="type">Type of Field object</param>
+        /// <param name="printOld">bool value</param>
         public void SetDescription(Type type, bool printOld = false)
         {
             string userInput;
@@ -202,9 +239,14 @@ namespace IssueTracker
                 userInput = userInput.ToUpper();
             }
             userInput = userInput.Replace(';', ',');
+            userInput = userInput.Replace('\\', '/');
             _description = userInput;
         }
 
+        /// <summary>
+        /// Runs setter given in 'setType'
+        /// </summary>
+        /// <param name="setType">string with property to set</param>
         public void SetPrivateField(string setType)
         {
             switch (setType)
@@ -224,46 +266,83 @@ namespace IssueTracker
             }
         }
 
+        /// <summary>
+        /// idMaxNumber getter
+        /// </summary>
+        /// <returns>idMaxNumber</returns>
         public static int GetIdMaxNumber()
         {
             return _idMaxNumber;
         }
-        
-        public static int GetIsMaxNumber()
+
+        /// <summary>
+        /// bugMaxNumber getter
+        /// </summary>
+        /// <returns>bugMaxNumber</returns>
+        public static int GetBugMaxNumber()
         {
-            return _isMaxNumber;
+            return _bugMaxNumber;
         }
 
+        /// <summary>
+        /// Number getter
+        /// </summary>
+        /// <returns>Field number</returns>
         public int GetNumber()
         {
             return _number;
         }
 
+        /// <summary>
+        /// Type getter
+        /// </summary>
+        /// <returns>Field Type</returns>
         public new Type GetType()
         {
             return _type;
         }
 
+        /// <summary>
+        /// Priority getter
+        /// </summary>
+        /// <returns>Field Priority</returns>
         public Priority GetPriority()
         {
             return _priority;
         }
 
+        /// <summary>
+        /// Status getter
+        /// </summary>
+        /// <returns>Field Status</returns>
         public Status GetStatus()
         {
             return _status;
         }
 
+        /// <summary>
+        /// Title getter
+        /// </summary>
+        /// <returns>string with Field Title</returns>
         public string GetTitle()
         {
             return _title;
         }
 
+        /// <summary>
+        /// Description getter
+        /// </summary>
+        /// <returns>string with Field description</returns>
         public string GetDescription()
         {
             return _description;
         }
 
+        /// <summary>
+        /// Gets enum property of given type
+        /// </summary>
+        /// <param name="returnType">wanted enum type</param>
+        /// <returns>enum property</returns>
         public Enum GetEnumField(string returnType)
         {
             switch (returnType)
@@ -279,14 +358,24 @@ namespace IssueTracker
             }
         }
 
+        /// <summary>
+        /// Checks ID equality
+        /// </summary>
+        /// <param name="code">string with ID</param>
+        /// <returns>true if IDs are equal, falsse otherwise</returns>
         public bool CheckId(string code)
         {
-            string type = _type == Type.Idea ? "ID" : "IS";
+            string type = _type == Type.Idea ? "ID" : "BUG";
             string fieldCode = string.Format("{0}_{1}", type, _number);
 
             return string.Equals(code, fieldCode);
         }
 
+        /// <summary>
+        /// Returns value of wanted static field increased by one
+        /// </summary>
+        /// <param name="type">value from Type enum</param>
+        /// <returns>value of wanted static field increased by one</returns>
         private int SetNumber(Type type)
         {
             int number;
@@ -297,12 +386,16 @@ namespace IssueTracker
             }
             else
             {
-                number = _isMaxNumber++;
+                number = _bugMaxNumber++;
             }
 
             return number;
         }
 
+        /// <summary>
+        /// Type setter, gets user input and returns property
+        /// </summary>
+        /// <returns>value of Type enum</returns>
         private Type SetType()
         {
             int userInput;
@@ -311,7 +404,7 @@ namespace IssueTracker
             {
                 Console.Write("\nChoose type:" +
                     "\n1 - Idea" +
-                    "\n2 - Issue" +
+                    "\n2 - Bug" +
                     "\nOption: ");
                 try
                 {

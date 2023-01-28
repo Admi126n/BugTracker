@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace IssueTracker
+namespace BugTracker
 {
+    /// <summary>
+    /// Class with methods needed for editing Field objects properties
+    /// </summary>
     static class FieldEditor
     {
+        /// <summary>
+        /// Main FieldEditor func, gets user input and runs choosen funcs
+        /// </summary>
+        /// <param name="fields">list of Field objects</param>
         public static void MainFieldEditor(List<Field> fields)
         {
             int userInput;
@@ -51,6 +56,9 @@ namespace IssueTracker
             }
         }
 
+        /// <summary>
+        /// Prints FieldEditor menu
+        /// </summary>
         private static void PrintEditorMenu()
         {
             Console.Clear();
@@ -63,6 +71,11 @@ namespace IssueTracker
                 "\nOption: ");
         }
 
+        /// <summary>
+        /// Gets bug/idea ID and runs func for changing enum field given in 'setType' of given Field object
+        /// </summary>
+        /// <param name="fields">list of Field objects</param>
+        /// <param name="setType">type of Enum field which have to be setted</param>
         private static void EditField(List<Field> fields, string setType)
         {
             bool exit = false;
@@ -72,14 +85,14 @@ namespace IssueTracker
 
             foreach (Field field in fields)
             {
-                string type = field.GetType() == Field.Type.Idea ? "ID" : "IS";
+                string type = field.GetType() == Field.Type.Idea ? "ID" : "BUG";
                 fieldsIds.Add(string.Format("{0}_{1}", type, field.GetNumber()));
             }
 
             while (!exit)
             {
                 Console.Clear();
-                Console.Write("Type idea/issue ID ('ex' - exit): ");
+                Console.Write("Type idea/bug ID ('ex' - exit): ");
                 userInput = Console.ReadLine();
 
                 if (string.Equals(userInput, "ex"))
@@ -107,6 +120,10 @@ namespace IssueTracker
             _ = Console.ReadLine();
         }
 
+        /// <summary>
+        /// Gets user input with idea/bug ID and deletes it
+        /// </summary>
+        /// <param name="fields">list of Field objects</param>
         private static void DeleteField(List<Field> fields)
         {
             bool exit = false;
@@ -116,14 +133,14 @@ namespace IssueTracker
 
             foreach (Field field in fields)
             {
-                string type = field.GetType() == Field.Type.Idea ? "ID" : "IS";
+                string type = field.GetType() == Field.Type.Idea ? "ID" : "BUG";
                 fieldsIds.Add(string.Format("{0}_{1}", type, field.GetNumber()));
             }
 
             while (!exit)
             {
                 Console.Clear();
-                Console.Write("Type idea/issue ID ('ex' - exit): ");
+                Console.Write("Type idea/bug ID ('ex' - exit): ");
                 userInput = Console.ReadLine();
 
                 if (string.Equals(userInput, "ex"))

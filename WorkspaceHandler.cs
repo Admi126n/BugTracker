@@ -2,27 +2,39 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace IssueTracker
+namespace BugTracker
 {
+    /// <summary>
+    /// Class with all methods needed for workspace management
+    /// </summary>
     class WorkspaceHandler
     {
         private string _currentWorkspacePath;
         private string _currentWorkspaceName;
         private Dictionary<int, string> _availableWorkspacesDict = new Dictionary<int, string>();
 
+        /// <summary>
+        /// Sets dict with available workspaces
+        /// </summary>
         public WorkspaceHandler()
         {
             _availableWorkspacesDict = GetAvailableWorkspaces();
         }
 
+        /// <summary>
+        /// currentWorkspaceName getter
+        /// </summary>
+        /// <returns>current workspace name</returns>
         public string GetCurrentWorkspaceName()
         {
             return _currentWorkspaceName;
         }
 
+        /// <summary>
+        /// Main WorkspaceHandler func, gets user input and runs choosen funcs
+        /// </summary>
+        /// <returns>current workspace path</returns>
         public string MainWorkspaceHandler()
         {
             int userInput;
@@ -64,21 +76,36 @@ namespace IssueTracker
             }
         }
 
+        /// <summary>
+        /// currentWorkspacePath setter
+        /// </summary>
+        /// <param name="path">current workspace path</param>
         private void SetCurrentWorkspacePath(string path)
         {
             _currentWorkspacePath = path;
         }
 
+        /// <summary>
+        /// currentWorkspaceName setter
+        /// </summary>
+        /// <param name="name">current workspace name</param>
         private void SetCurrentWorkspaceName(string name)
         {
             _currentWorkspaceName = name;
         }
 
+        /// <summary>
+        /// avaiableWorkspacesDict setter
+        /// </summary>
         private void SetAvailableWorkspacesDict()
         {
             _availableWorkspacesDict = GetAvailableWorkspaces();
         }
 
+        /// <summary>
+        /// Gets all avaiable directories in current working directory
+        /// </summary>
+        /// <returns>dict with avaiable workspaces</returns>
         private Dictionary<int, string> GetAvailableWorkspaces()
         {
             Dictionary<int, string> workspacesDict = new Dictionary<int, string>();
@@ -100,6 +127,9 @@ namespace IssueTracker
             return workspacesDict;
         }
 
+        /// <summary>
+        /// Prints avaiableWorkspacesDict
+        /// </summary>
         private void PrintWorkspaces()
         {
             Console.Clear();
@@ -113,17 +143,23 @@ namespace IssueTracker
             }
             else
             {
-                Console.WriteLine("\nNo available workspaces, press enter to continue");
+                Console.WriteLine("No available workspaces, press enter to continue");
                 _ = Console.ReadLine();
             }
         }
 
+        /// <summary>
+        /// Gets workspace name from user and creates new workspace
+        /// </summary>
         private void AddWorkspace()
         {
             string workspaceName;
 
             while (true)
             {
+                /* TODO Direcroty name forbridden characters:
+                \ / [ ] : ¦ < > + = ; , * ? "
+                */
                 Console.Clear();
                 Console.Write("Type workspace name (max 20 characters): ");
                 workspaceName = Console.ReadLine();
@@ -169,6 +205,10 @@ namespace IssueTracker
             _ = Console.ReadLine();
         }
 
+        /// <summary>
+        /// Gets user input and sets workspace name and path to the choosen one
+        /// </summary>
+        /// <returns>-1 if user choose exit option, 0 if no workspaces available, 1 if workspace chooser properly</returns>
         private int ChooseWorkspace()
         {
             int userInput;
@@ -207,6 +247,9 @@ namespace IssueTracker
             }
         }
 
+        /// <summary>
+        /// Gets user input and deletes choosen workspace
+        /// </summary>
         private void DeleteWorkspace()
         {
             int userInput;
@@ -259,6 +302,9 @@ namespace IssueTracker
             }
         }
 
+        /// <summary>
+        /// Prints WorkspaceHandler menu
+        /// </summary>
         private void PrintWorkspaceMenu()
         {
             Console.Clear();

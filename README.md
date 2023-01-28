@@ -11,16 +11,23 @@ type, priority or status.
 - Changing workspace
 - Deleting workspace
 - Editing title/description
+- Option to generate .txt file with tex code with all bugs/ideas listing
 
 #### Planed updates:
-- Option to generate .tex file with all issues/ideas
 - Graphical user interface
+- MacOS version (in Swift)
+
+#### Manual
+After compiling code create directory (e.g. BugTracker) in which you want to store BugTracker files.
+After that put .exe file inside. You can use it to run program or you can create shortcut and run program with it.
+Generated .tex file has been tested in https://www.overleaf.com
 
 #### Version
-1.2.0
+1.3.0
 
 Changelog:
-- 1.2.0 - Added option to edit idea/issue title/description
+- 1.3.0 - Added option to generate .txt file with tex code
+- 1.2.0 - Added option to edit idea/bug title/description
 - 1.1.0 - Added option to delete workspace
 - 1.0.0 - Working program (without editing title/description and deleting workspaces)
 
