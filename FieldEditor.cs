@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BugTracker
 {
+    /// <summary>
+    /// Class with methods needed for editing Field objects properties
+    /// </summary>
     static class FieldEditor
     {
         /// <summary>

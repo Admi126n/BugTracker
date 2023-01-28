@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace BugTracker
 {
+    /// <summary>
+    /// Field class with static max idea/bug numbers, and needed enums
+    /// </summary>
     class Field
     {
         public enum Type
@@ -243,6 +243,10 @@ namespace BugTracker
             _description = userInput;
         }
 
+        /// <summary>
+        /// Runs setter given in 'setType'
+        /// </summary>
+        /// <param name="setType">string with property to set</param>
         public void SetPrivateField(string setType)
         {
             switch (setType)
@@ -262,46 +266,83 @@ namespace BugTracker
             }
         }
 
+        /// <summary>
+        /// idMaxNumber getter
+        /// </summary>
+        /// <returns>idMaxNumber</returns>
         public static int GetIdMaxNumber()
         {
             return _idMaxNumber;
         }
-        
+
+        /// <summary>
+        /// bugMaxNumber getter
+        /// </summary>
+        /// <returns>bugMaxNumber</returns>
         public static int GetBugMaxNumber()
         {
             return _bugMaxNumber;
         }
 
+        /// <summary>
+        /// Number getter
+        /// </summary>
+        /// <returns>Field number</returns>
         public int GetNumber()
         {
             return _number;
         }
 
+        /// <summary>
+        /// Type getter
+        /// </summary>
+        /// <returns>Field Type</returns>
         public new Type GetType()
         {
             return _type;
         }
 
+        /// <summary>
+        /// Priority getter
+        /// </summary>
+        /// <returns>Field Priority</returns>
         public Priority GetPriority()
         {
             return _priority;
         }
 
+        /// <summary>
+        /// Status getter
+        /// </summary>
+        /// <returns>Field Status</returns>
         public Status GetStatus()
         {
             return _status;
         }
 
+        /// <summary>
+        /// Title getter
+        /// </summary>
+        /// <returns>string with Field Title</returns>
         public string GetTitle()
         {
             return _title;
         }
 
+        /// <summary>
+        /// Description getter
+        /// </summary>
+        /// <returns>string with Field description</returns>
         public string GetDescription()
         {
             return _description;
         }
 
+        /// <summary>
+        /// Gets enum property of given type
+        /// </summary>
+        /// <param name="returnType">wanted enum type</param>
+        /// <returns>enum property</returns>
         public Enum GetEnumField(string returnType)
         {
             switch (returnType)
@@ -317,6 +358,11 @@ namespace BugTracker
             }
         }
 
+        /// <summary>
+        /// Checks ID equality
+        /// </summary>
+        /// <param name="code">string with ID</param>
+        /// <returns>true if IDs are equal, falsse otherwise</returns>
         public bool CheckId(string code)
         {
             string type = _type == Type.Idea ? "ID" : "BUG";
@@ -325,6 +371,11 @@ namespace BugTracker
             return string.Equals(code, fieldCode);
         }
 
+        /// <summary>
+        /// Returns value of wanted static field increased by one
+        /// </summary>
+        /// <param name="type">value from Type enum</param>
+        /// <returns>value of wanted static field increased by one</returns>
         private int SetNumber(Type type)
         {
             int number;
@@ -341,6 +392,10 @@ namespace BugTracker
             return number;
         }
 
+        /// <summary>
+        /// Type setter, gets user input and returns property
+        /// </summary>
+        /// <returns>value of Type enum</returns>
         private Type SetType()
         {
             int userInput;
