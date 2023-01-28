@@ -13,6 +13,7 @@ namespace BugTracker
         private string _currentWorkspacePath;
         private string _currentWorkspaceName;
         private Dictionary<int, string> _availableWorkspacesDict = new Dictionary<int, string>();
+        private static readonly List<string> forbiddenChars = new List<string> { "\\", "/", ":", "*", "?", "\"", "<", ">", "|" };
 
         /// <summary>
         /// Sets dict with available workspaces
@@ -157,12 +158,9 @@ namespace BugTracker
 
             while (true)
             {
-                /* TODO Direcroty name forbridden characters:
-                \ / [ ] : ¦ < > + = ; , * ? "
-                */
                 Console.Clear();
-                Console.Write("Type workspace name (max 20 characters): ");
-                workspaceName = Console.ReadLine();
+                Console.Write("Type workspace name (max 20 characters, without \\ / : * ? \" < > |): ");
+                workspaceName = RemoveFofbriddenChars(Console.ReadLine());
 
                 if (String.IsNullOrWhiteSpace(workspaceName))
                 {
@@ -203,6 +201,20 @@ namespace BugTracker
 
             Console.WriteLine("\nWorkspace created, press enter to continue\n");
             _ = Console.ReadLine();
+        }
+
+        /// <summary>
+        /// Removes forbidden characters from given text
+        /// </summary>
+        /// <param name="text">text with forbidden characters</param>
+        /// <returns>text witchout forbidden characters</returns>
+        private string RemoveFofbriddenChars(string text)
+        {
+            foreach (string el in forbiddenChars)
+            {
+                text = text.Replace(el, "");
+            }
+            return text;
         }
 
         /// <summary>

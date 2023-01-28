@@ -162,6 +162,7 @@ namespace BugTracker
 
         /// <summary>
         /// Get user input and sets title of Field object. If printOld=true prints old title as editable text
+        /// Function replaces '\' with '/' and ';' with ','
         /// </summary>
         /// <param name="type">Type of Field object</param>
         /// <param name="printOld">bool value</param>
@@ -202,7 +203,8 @@ namespace BugTracker
         }
 
         /// <summary>
-        /// Get user input and sets description of Field object. If printOld=true prints old description as editable text
+        /// Get user input and sets description of Field object. If printOld=true prints old description as editable text.
+        /// Function replaces '\' with '/' and ';' with ','
         /// </summary>
         /// <param name="type">Type of Field object</param>
         /// <param name="printOld">bool value</param>

@@ -185,7 +185,7 @@ namespace BugTracker
         /// <summary>
         /// Replaces all chars which have special functions in tex code
         /// </summary>
-        /// <param name="text">text with forbridden chars</param>
+        /// <param name="text">text with forbidden chars</param>
         /// <returns>text with escaped characters</returns>
         private static string ReplaceForbriddenChars(string text)
         {
