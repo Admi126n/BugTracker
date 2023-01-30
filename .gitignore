@@ -1,5 +1,4 @@
-﻿IssueTracker.csproj
+﻿BugTracker.csproj
+Properties
 bin/
 obj/
-App.config
-icon.ico
